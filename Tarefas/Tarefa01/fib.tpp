@@ -21,5 +21,4 @@ fim
 inteiro principal()
 	leia(n)
 	fib(n)
-	{ comentário }
 fim
