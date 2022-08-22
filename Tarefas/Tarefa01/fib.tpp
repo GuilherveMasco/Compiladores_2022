@@ -19,6 +19,7 @@ inteiro fib(inteiro: n)
 fim
 
 inteiro principal()
+	{ Comentario }
 	leia(n)
 	fib(n)
 fim
