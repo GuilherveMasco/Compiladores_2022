@@ -1,0 +1,25 @@
+{
+  "name": "tpp",
+  "displayName": "tpp-highlights",
+  "description": "TPP language support for highlights",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "tpp",
+      "aliases": ["TPP", "tpp"],
+      "extensions": [".tpp"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "tpp",
+      "scopeName": "source.tpp",
+      "path": "./syntaxes/tpp.tmLanguage.json"
+    }]
+  }
+}
