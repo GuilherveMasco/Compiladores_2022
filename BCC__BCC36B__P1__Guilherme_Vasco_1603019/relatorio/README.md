@@ -66,9 +66,11 @@ Como dito anteriormente, foi utilizada a linguagem Python, juntamente com a bibl
 #### 4.1 Vetores de auxílio
 Para auxiliar na operação de varredura dos código, as traduções de todos os tokens e palavras reservadas são armazenadas em dois vetores, *tokens* e *reserved_words*, respectivamente, que podem ser vistos a seguir:
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/tokens.PNG)
+
 **Figura 1. Vetor auxiliar de tokens.**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/palavras.PNG)
+
 **Figura 2. Vetor auxiliar de palavras reservadas.**
 
 Por conta desses vetores, não é necessário aplicar regras para cada palavra reservada, pois se o token lido não for uma palavra reservada ele é, automaticamente, um ID.
@@ -77,11 +79,13 @@ Por conta desses vetores, não é necessário aplicar regras para cada palavra r
 Para a realização do processo de varregura foram utilizadas expressões regulares para cada um dos símbolos da linguagem. O uso de expressões regulares é uma técnica que fornece uma forma lógica para identificação de cadeias de caracteres específicas. A Figura 3 mostra as expressões regulares que foram utilizadas para reconhecer dígitos, letras, sinais e afins (nota: as linhas com # estão comentadas, por conta disso, não estão sendo utilizadas).
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/expressoes-2.PNG)
+
 **Figura 3. Expressões regulares para valores**
 
 Já a Figura 4 mostra as expressões regulares utilizadas para reconhecimento dos símbolos conhecidos e operações.
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/expressoes.PNG)
+
 **Figura 4. Expressões regulares para símbolos e operações.**
 
 ### 5. Autômatos e expressões regulares
@@ -90,17 +94,20 @@ Qualquer expressão regular pode ser convertida em um autômato finito que ela d
 Para demonstrar isso, podemos utilizar a expressão utilizada para reconhecer números inteiros (DIGITO) que é: ([0 - 9]). O autômato dessa expressão pode ser visto na Figura 5.
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/auto-digito.PNG)
+
 **Figura 5. Autômato resultante da expressão ([0 - 9])**
 
 Para a identificação de palavras reservadas também é possível utilizar autômatos, como pode ser visto na Figura 6.
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/auto-inteiro.PNG)
+
 **Figura 6. Autômato para reconhecimento da palavra reservada "inteiro".**
 
 ### 6. Varredura
 A varredura é realizada na função main do código, ela se baseia em ler o arquivo de entrada, valor-por-valor, enquanto houver valor no arquivo. Essa leitura utiliza a função de análise léxica do PLY, lexer. O lexer possibilita a conversão do valor lido para token e a obtenção da sua tradução a partir das expressões regulares e vetores auxiliares.
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/main.PNG)
+
 **Figura 7. Realização da varredura, por uso do lexer, na função main.**
 
 ### 7. Execução
@@ -190,6 +197,7 @@ Se a execução do programa estiver correta, esse resultado deve ser idêntico a
 Para verificar o funcionamento do programa, foi realizada uma bateria de testes com 32 algoritmos na linguagem TPP, fornecidos e comparados com os arquivos de saídas esperadas, também fornecidos, na pasta *lexica-testes*. O teste geral foi realizado através do comando *run-tests.sh*, onde o resultado obtido foi:
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P1__Guilherme_Vasco_1603019/relatorio/img/testes.PNG)
+
 **Figura 8. Bateria de testes realizada.**
 
 Na Figura 8 é possível ver, pelo nome do arquivo, qual a função de cada um dos algoritmos em TPP. Na frente do nome é mostrado um “[OK]”, que confirma que a execução foi um sucesso e o resultado compatível com a saída esperada.
