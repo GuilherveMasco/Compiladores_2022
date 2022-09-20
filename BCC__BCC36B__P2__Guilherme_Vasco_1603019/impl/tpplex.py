@@ -167,9 +167,11 @@ def t_error(token):
 
     # file = token.lexer.filename
     line = token.lineno
-    # column = define_column(token.lexer.backup_data, token.lexpos)
-    message = "Caracter inválido '%s'" % token.value[0]
-    message += " na linha " + str(token.lexer.lineno) # obtém a linha onde está o caracter inválido
+    column = token.lexpos
+
+    message = "Erro:[" + str(line) + "," + str(column) + "]: Caracter"
+    message += " '%s'" % token.value[0]
+    message += " inválido"
 
     # print(f"[{file}]:[{line},{column}]: {message}.")
     print(message)
