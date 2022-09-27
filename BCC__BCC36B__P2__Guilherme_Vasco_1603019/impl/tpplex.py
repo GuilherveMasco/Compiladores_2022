@@ -11,7 +11,6 @@ logging.basicConfig(
 )
 log = logging.getLogger()
 
-
 tokens = [
     "ID",  # identificador
     # numerais
@@ -164,8 +163,6 @@ def define_column(input, lexpos):
 
 
 def t_error(token):
-
-    # file = token.lexer.filename
     line = token.lineno
     column = token.lexpos
 
@@ -179,7 +176,6 @@ def t_error(token):
     token.lexer.skip(1)
 
     # token.lexer.has_error = True
-
 
 def main():
     aux = argv[1].split('.')
