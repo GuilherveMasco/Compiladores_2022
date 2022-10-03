@@ -60,111 +60,147 @@ Para a definição de regras de uma linguagem livre de contexto, em forma teztua
 A partir dessa tabela é possível gerar os diagramas sintáticos a seguir:
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/programa.png)
+
 **Figura 1. Regra para programa**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/lista_declaracoes.png)
+
 **Figura 2. Regra para lista_declaracoes**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/declaracao.png)
+
 **Figura 3. Regra para declaracao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/declaracao_variaveis.png)
+
 **Figura 4. Regra para declaracao_variaveis**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/inicializacao_variaveis.png)
+
 **Figura 5. Regra para inicializacao_variaveis**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/lista_variaveis.png)
+
 **Figura 6. Regra para lista_variaveis**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/var.png)
+
 **Figura 7. Regra para var**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/indice.png)
+
 **Figura 8. Regra para indice**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/tipo.png)
+
 **Figura 9. Regra para tipo**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/declaracao_funcao.png)
+
 **Figura 10. Regra para declaracao_funcao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/cabecalho.png)
+
 **Figura 11. Regra para cabecalho**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/lista_parametros.png)
+
 **Figura 12. Regra para lista_parametros**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/parametro.png)
+
 **Figura 13. Regra para parametro**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/corpo.png)
+
 **Figura 14. Regra para corpo**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/acao.png)
+
 **Figura 15. Regra para acao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/se.png)
+
 **Figura 16. Regra para se**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/repita.png)
+
 **Figura 17. Regra para repita**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/atribuicao.png)
+
 **Figura 18. Regra para atribuicao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/leia.png)
+
 **Figura 19. Regra para leia**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/escreva.png)
+
 **Figura 20. Regra para escreva**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/retorna.png)
+
 **Figura 21. Regra para retorna**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/expressao.png)
+
 **Figura 22. Regra para expressao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/expressao_logica.png)
+
 **Figura 23. Regra para expressao_logica**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/expressao_simples.png)
+
 **Figura 24. Regra para expressao_simples**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/expressao_aditiva.png)
+
 **Figura 25. Regra para expressao_aditiva**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/expressao_multiplicativa.png)
+
 **Figura 26. Regra para xpressao_multiplicativa**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/expressao_unaria.png)
+
 **Figura 27. Regra para expressao_unaria**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/operador_relacional.png)
+
 **Figura 28. Regra para operador_relacional**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/operador_soma.png)
+
 **Figura 29. Regra para operador_soma**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/operador_logico.png)
+
 **Figura 30. Regra para operador_logico**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/operador_negacao.png)
+
 **Figura 31. Regra para operador_negacao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/operador_multiplicacao.png)
+
 **Figura 32. Regra para operador_multiplicacao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/fator.png)
+
 **Figura 33. Regra para fator**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/numero.png)
+
 **Figura 34. Regra para numero**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/chamada_funcao.png)
+
 **Figura 35. Regra para chamada_funcao**
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/lista_argumentos.png)
+
 **Figura 36. Regra para lista_argumentos**
 
 ### 4. Árvore Sintática
@@ -173,6 +209,7 @@ A ferramenta utiliza o MyTree, parte da biblioteca Anytree, para a geração gr�
 A árvore sintática é composta por nós, esses nós são criados na ferramenta dentro de um construtor na classe MyNode, para ele é passado nome, pai, ID, tipo, label e filhos e o construtor cria o nó a partir dessas informações.
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/mynode.PNG)
+
 **Figura 37. Criação de um nó na ferramenta através do MyTree.**
 
 ### 5. Implementação
@@ -181,11 +218,13 @@ Para a implementação, cada regra gramatical é definida por uma função, esta
 Cada função aceita um único argumento *p* que é uma sequência contendo os valores de cada símbolo gramatical na regra correspondente da função.
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/p_programa.PNG)
+
 **Figura 38. Exemplo de função com o cabeçalho da regra *programa*.**
 
 Cada função também pode ter sua função de tratamento de erro. Para tal função, também, deve ser definido o cabeçalho com as regras que serão responsáveis por chamar essa função. A função de erro, para ser chamada, deve seguir o padrão do nome da função de sucesso, com o termo *_error* logo a seguir.
 
 ![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/p_programa.PNG)
+
 **Figura 39. Exemplo de função de erro com o cabeçalho da regra *cabecalho*.**
 
 Assim, para a ferramenta, foram fornecidas as regras e desenvolvidas as regras de erro para cada cabeçalho, considerando que não são todos os cabeçalhos onde é possível executar erros.
@@ -196,8 +235,27 @@ Para a execução da ferramenta é necessário ter a linguagem de programação 
 
 #### 6.1 Testes
 Juntamente ao código é fornecida a pasta *sintatica-testes*, que fornece diversos códigos na linguagem TPP para testes.
-Executando o código 
+Executando o código *somavet.tpp* com o comando *python tppparser.py somavet.tpp* são gerados os arquivos de saída (no mesmo diretório):
+
+*somavet.tpp.ast.dot*
+*somavet.tpp.ast.png*
+*somavet.tpp.ast2.png*
+*somavet.tpp.unique.ast.dot*
+*somavet.tpp.unique.ast.png*
+
+Abrindo o arquivo *somavet.tpp.unique.ast.png* é possível ver a árvore sintática gerada, com o código completo nas folhas da árvore.
+
+![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/somavet.tpp.unique.ast.png)
+
+**Figura 40. Árvore sintática gerada pela ferramenta para o código *somavet.tpp***
+
 
 ### 7. Conclusões
+A árvore sintática gerada pela ferramenta se mostrou funcional para as próximas etapas do processo de compilação dos códigos na linguagem TPP. Os testes mostraram que os códigos foram executados com sucesso e as árvores geradas corretamente.
+As bibliotecas PLY e AnyTree facilitaram o processo da geração da árvore sintática, por conta disso, essas bibliotecas foram de grande importância no desenvolvimento da ferramenta.
 
 ### Referências
+Gonçalves, R. A. (2017) “Documentação online da Gramática da TPP”, https://docs.google.com/document/d/1oYX-5ipzL_izj_hO8s7axuo2OyA279YEhnAItgXzXAQ.
+Louden, K. C. (2004) “Análise Sintática Ascendente”, Em: Compiladores: princípios e práticas., EUA.
+Beazley, D. M. (2021) “PLY (Python Lex-Yacc)”, https://www.dabeaz.com/ply/ply.html
+Johnson, S. C. (1979) Yacc: Yet Another Compiler-Compiler.
