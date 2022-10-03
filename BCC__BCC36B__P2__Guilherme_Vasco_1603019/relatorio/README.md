@@ -223,7 +223,7 @@ Cada função aceita um único argumento *p* que é uma sequência contendo os v
 
 Cada função também pode ter sua função de tratamento de erro. Para tal função, também, deve ser definido o cabeçalho com as regras que serão responsáveis por chamar essa função. A função de erro, para ser chamada, deve seguir o padrão do nome da função de sucesso, com o termo *_error* logo a seguir.
 
-![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/p_programa.PNG)
+![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P2__Guilherme_Vasco_1603019/relatorio/img/p_cabecalho_error.PNG)
 
 **Figura 39. Exemplo de função de erro com o cabeçalho da regra *cabecalho*.**
 
