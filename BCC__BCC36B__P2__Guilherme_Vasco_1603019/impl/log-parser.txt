@@ -5705,6 +5705,3 @@
    yacc.py:3462:shift/reduce conflict for NUM_INTEIRO in state 171 resolved as shift
    yacc.py:3462:shift/reduce conflict for NUM_PONTO_FLUTUANTE in state 171 resolved as shift
    yacc.py:3462:shift/reduce conflict for NUM_NOTACAO_CIENTIFICA in state 171 resolved as shift
-tppparser.py: 269:Syntax error parsing index rule at line 7
-tppparser.py: 269:Syntax error parsing index rule at line 20
-tppparser.py: 269:Syntax error parsing index rule at line 40

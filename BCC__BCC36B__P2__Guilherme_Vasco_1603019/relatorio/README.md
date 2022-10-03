@@ -238,9 +238,13 @@ Juntamente ao código é fornecida a pasta *sintatica-testes*, que fornece diver
 Executando o código *somavet.tpp* com o comando *python tppparser.py somavet.tpp* são gerados os arquivos de saída (no mesmo diretório):
 
 *somavet.tpp.ast.dot*
+
 *somavet.tpp.ast.png*
+
 *somavet.tpp.ast2.png*
+
 *somavet.tpp.unique.ast.dot*
+
 *somavet.tpp.unique.ast.png*
 
 Abrindo o arquivo *somavet.tpp.unique.ast.png* é possível ver a árvore sintática gerada, com o código completo nas folhas da árvore.
