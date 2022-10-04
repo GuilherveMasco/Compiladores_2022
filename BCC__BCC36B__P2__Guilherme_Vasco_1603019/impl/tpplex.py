@@ -40,7 +40,7 @@ tokens = [
     "VIRGULA",  # ,
     "DOIS_PONTOS",  # :
     "ATRIBUICAO",  # :=
-    'COMENTARIO', # {***}
+    #'COMENTARIO', # {***}
 ]
 
 reserved_words = {
@@ -149,7 +149,7 @@ t_COMENTARIO = r'(\{((.|\n)*?)\})'
 def t_COMENTARIO(token):
     r"(\{((.|\n)*?)\})"
     token.lexer.lineno += token.value.count("\n")
-    return token
+    #return token
 
 
 def t_newline(token):

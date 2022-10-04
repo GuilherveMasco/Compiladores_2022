@@ -1,8 +1,4 @@
    yacc.py:3317:Created by PLY version 3.11 (http://www.dabeaz.com/ply)
-   yacc.py:3368:
-   yacc.py:3369:Unused terminals:
-   yacc.py:3370:
-   yacc.py:3373:    COMENTARIO
    yacc.py:3377:
    yacc.py:3378:Grammar
    yacc.py:3379:
@@ -111,7 +107,6 @@
    yacc.py:3405:ABRE_PARENTESE       : 21 22 23 24 55 56 57 58 85 89 93
    yacc.py:3405:ATE                  : 51 52
    yacc.py:3405:ATRIBUICAO           : 54
-   yacc.py:3405:COMENTARIO           : 
    yacc.py:3405:DIFERENCA            : 75
    yacc.py:3405:DIVISAO              : 84
    yacc.py:3405:DOIS_PONTOS          : 7 28

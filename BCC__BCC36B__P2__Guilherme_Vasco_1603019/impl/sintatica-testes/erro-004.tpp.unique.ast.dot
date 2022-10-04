@@ -1,17 +1,17 @@
 digraph tree {
-    "0x7fb02ded09a0" [label="programa"];
-    "0x7fb02e2574c0" [label="lista_declaracoes"];
-    "0x7fb02ded2470" [label="declaracao"];
-    "0x7fb02ded0a90" [label="declaracao_funcao"];
-    "0x7fb02e257640" [label="tipo"];
-    "0x7fb02e257460" [label="INTEIRO"];
-    "0x7fb02df2a2c0" [label="inteiro"];
-    "0x7fb02df2a470" [label="ERROR::3"];
-    "0x7fb02ded09a0" -> "0x7fb02e2574c0";
-    "0x7fb02e2574c0" -> "0x7fb02ded2470";
-    "0x7fb02ded2470" -> "0x7fb02ded0a90";
-    "0x7fb02ded0a90" -> "0x7fb02e257640";
-    "0x7fb02ded0a90" -> "0x7fb02df2a470";
-    "0x7fb02e257640" -> "0x7fb02e257460";
-    "0x7fb02e257460" -> "0x7fb02df2a2c0";
+    "0x7ff0bca009a0" [label="programa"];
+    "0x7ff0bcd874c0" [label="lista_declaracoes"];
+    "0x7ff0bca02470" [label="declaracao"];
+    "0x7ff0bca00a90" [label="declaracao_funcao"];
+    "0x7ff0bcd87640" [label="tipo"];
+    "0x7ff0bcd87460" [label="INTEIRO"];
+    "0x7ff0bca5a2c0" [label="inteiro"];
+    "0x7ff0bca5a470" [label="ERROR::3"];
+    "0x7ff0bca009a0" -> "0x7ff0bcd874c0";
+    "0x7ff0bcd874c0" -> "0x7ff0bca02470";
+    "0x7ff0bca02470" -> "0x7ff0bca00a90";
+    "0x7ff0bca00a90" -> "0x7ff0bcd87640";
+    "0x7ff0bca00a90" -> "0x7ff0bca5a470";
+    "0x7ff0bcd87640" -> "0x7ff0bcd87460";
+    "0x7ff0bcd87460" -> "0x7ff0bca5a2c0";
 }
