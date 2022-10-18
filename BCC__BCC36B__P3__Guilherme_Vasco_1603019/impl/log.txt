@@ -1,0 +1,199 @@
+   yacc.py:3317:Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+   yacc.py:3368:
+   yacc.py:3369:Unused terminals:
+   yacc.py:3370:
+   yacc.py:3373:    DIFERENCA
+   yacc.py:3373:    DIVISAO
+   yacc.py:3373:    E_LOGICO
+   yacc.py:3373:    MULTIPLICACAO
+   yacc.py:3373:    NEGACAO
+   yacc.py:3373:    OU_LOGICO
+   yacc.py:3377:
+   yacc.py:3378:Grammar
+   yacc.py:3379:
+   yacc.py:3381:Rule 0     S' -> programa
+   yacc.py:3381:Rule 1     programa -> lista_declaracoes
+   yacc.py:3381:Rule 2     lista_declaracoes -> lista_declaracoes declaracao
+   yacc.py:3381:Rule 3     lista_declaracoes -> declaracao
+   yacc.py:3381:Rule 4     declaracao -> declaracao_variaveis
+   yacc.py:3381:Rule 5     declaracao -> inicializacao_variaveis
+   yacc.py:3381:Rule 6     declaracao -> declaracao_funcao
+   yacc.py:3381:Rule 7     declaracao_variaveis -> tipo DOIS_PONTOS lista_variaveis
+   yacc.py:3381:Rule 8     inicializacao_variaveis -> atribuicao
+   yacc.py:3381:Rule 9     lista_variaveis -> lista_variaveis VIRGULA var
+   yacc.py:3381:Rule 10    lista_variaveis -> var
+   yacc.py:3381:Rule 11    var -> ID
+   yacc.py:3381:Rule 12    var -> ID indice
+   yacc.py:3381:Rule 13    indice -> indice ABRE_COLCHETE expressao FECHA_COLCHETE
+   yacc.py:3381:Rule 14    indice -> ABRE_COLCHETE expressao FECHA_COLCHETE
+   yacc.py:3381:Rule 15    indice -> error ABRE_COLCHETE expressao FECHA_COLCHETE
+   yacc.py:3381:Rule 16    indice -> indice ABRE_COLCHETE error FECHA_COLCHETE
+   yacc.py:3381:Rule 17    indice -> ABRE_COLCHETE error FECHA_COLCHETE
+   yacc.py:3381:Rule 18    tipo -> INTEIRO
+   yacc.py:3381:Rule 19    tipo -> FLUTUANTE
+   yacc.py:3381:Rule 20    declaracao_funcao -> tipo cabecalho
+   yacc.py:3381:Rule 21    declaracao_funcao -> cabecalho
+   yacc.py:3381:Rule 22    cabecalho -> ID error lista_parametros FECHA_PARENTESE corpo FIM
+   yacc.py:3381:Rule 23    cabecalho -> ID ABRE_PARENTESE lista_parametros error corpo FIM
+   yacc.py:3381:Rule 24    cabecalho -> ID ABRE_PARENTESE lista_parametros FECHA_PARENTESE corpo
+   yacc.py:3381:Rule 25    cabecalho -> ID ABRE_PARENTESE lista_parametros FECHA_PARENTESE corpo FIM
+   yacc.py:3381:Rule 26    lista_parametros -> lista_parametros VIRGULA parametro
+   yacc.py:3381:Rule 27    lista_parametros -> parametro
+   yacc.py:3381:Rule 28    lista_parametros -> vazio
+   yacc.py:3381:Rule 29    parametro -> tipo DOIS_PONTOS ID
+   yacc.py:3381:Rule 30    parametro -> parametro ABRE_COLCHETE FECHA_COLCHETE
+   yacc.py:3381:Rule 31    parametro -> tipo error ID
+   yacc.py:3381:Rule 32    parametro -> error ID
+   yacc.py:3381:Rule 33    parametro -> parametro error FECHA_COLCHETE
+   yacc.py:3381:Rule 34    parametro -> parametro ABRE_COLCHETE error
+   yacc.py:3381:Rule 35    corpo -> corpo acao
+   yacc.py:3381:Rule 36    corpo -> vazio
+   yacc.py:3381:Rule 37    acao -> expressao
+   yacc.py:3381:Rule 38    acao -> declaracao_variaveis
+   yacc.py:3381:Rule 39    acao -> se
+   yacc.py:3381:Rule 40    acao -> repita
+   yacc.py:3381:Rule 41    acao -> leia
+   yacc.py:3381:Rule 42    acao -> escreva
+   yacc.py:3381:Rule 43    acao -> retorna
+   yacc.py:3381:Rule 44    se -> error expressao ENTAO corpo FIM
+   yacc.py:3381:Rule 45    se -> SE expressao error corpo FIM
+   yacc.py:3381:Rule 46    se -> error expressao ENTAO corpo SENAO corpo FIM
+   yacc.py:3381:Rule 47    se -> SE expressao error corpo SENAO corpo FIM
+   yacc.py:3381:Rule 48    se -> SE expressao ENTAO corpo error corpo FIM
+   yacc.py:3381:Rule 49    se -> SE expressao ENTAO corpo SENAO corpo
+   yacc.py:3381:Rule 50    se -> SE expressao ENTAO corpo FIM
+   yacc.py:3381:Rule 51    se -> SE expressao ENTAO corpo SENAO corpo FIM
+   yacc.py:3381:Rule 52    repita -> REPITA corpo ATE expressao
+   yacc.py:3381:Rule 53    repita -> error corpo ATE expressao
+   yacc.py:3381:Rule 54    repita -> REPITA corpo error expressao
+   yacc.py:3381:Rule 55    atribuicao -> var ATRIBUICAO expressao
+   yacc.py:3381:Rule 56    leia -> LEIA ABRE_PARENTESE var FECHA_PARENTESE
+   yacc.py:3381:Rule 57    leia -> LEIA ABRE_PARENTESE error FECHA_PARENTESE
+   yacc.py:3381:Rule 58    escreva -> ESCREVA ABRE_PARENTESE expressao FECHA_PARENTESE
+   yacc.py:3381:Rule 59    retorna -> RETORNA ABRE_PARENTESE expressao FECHA_PARENTESE
+   yacc.py:3381:Rule 60    expressao -> expressao_logica
+   yacc.py:3381:Rule 61    expressao -> atribuicao
+   yacc.py:3381:Rule 62    expressao_logica -> expressao_simples
+   yacc.py:3381:Rule 63    expressao_logica -> expressao_logica operador_logico expressao_simples
+   yacc.py:3381:Rule 64    expressao_simples -> expressao_aditiva
+   yacc.py:3381:Rule 65    expressao_simples -> expressao_simples operador_relacional expressao_aditiva
+   yacc.py:3381:Rule 66    expressao_aditiva -> expressao_multiplicativa
+   yacc.py:3381:Rule 67    expressao_aditiva -> expressao_aditiva operador_soma expressao_multiplicativa
+   yacc.py:3381:Rule 68    expressao_multiplicativa -> expressao_unaria
+   yacc.py:3381:Rule 69    expressao_multiplicativa -> expressao_multiplicativa operador_multiplicacao expressao_unaria
+   yacc.py:3381:Rule 70    expressao_unaria -> fator
+   yacc.py:3381:Rule 71    expressao_unaria -> operador_soma fator
+   yacc.py:3381:Rule 72    expressao_unaria -> operador_negacao fator
+   yacc.py:3381:Rule 73    operador_relacional -> MENOR
+   yacc.py:3381:Rule 74    operador_relacional -> MAIOR
+   yacc.py:3381:Rule 75    operador_relacional -> IGUAL
+   yacc.py:3381:Rule 76    operador_relacional -> DIFERENTE
+   yacc.py:3381:Rule 77    operador_relacional -> MENOR_IGUAL
+   yacc.py:3381:Rule 78    operador_relacional -> MAIOR_IGUAL
+   yacc.py:3381:Rule 79    operador_soma -> MAIS
+   yacc.py:3381:Rule 80    operador_soma -> MENOS
+   yacc.py:3381:Rule 81    operador_logico -> E
+   yacc.py:3381:Rule 82    operador_logico -> OU
+   yacc.py:3381:Rule 83    operador_negacao -> NAO
+   yacc.py:3381:Rule 84    operador_multiplicacao -> VEZES
+   yacc.py:3381:Rule 85    operador_multiplicacao -> DIVIDE
+   yacc.py:3381:Rule 86    fator -> ABRE_PARENTESE expressao FECHA_PARENTESE
+   yacc.py:3381:Rule 87    fator -> var
+   yacc.py:3381:Rule 88    fator -> chamada_funcao
+   yacc.py:3381:Rule 89    fator -> numero
+   yacc.py:3381:Rule 90    fator -> ABRE_PARENTESE error FECHA_PARENTESE
+   yacc.py:3381:Rule 91    numero -> NUM_INTEIRO
+   yacc.py:3381:Rule 92    numero -> NUM_PONTO_FLUTUANTE
+   yacc.py:3381:Rule 93    numero -> NUM_NOTACAO_CIENTIFICA
+   yacc.py:3381:Rule 94    chamada_funcao -> ID ABRE_PARENTESE lista_argumentos FECHA_PARENTESE
+   yacc.py:3381:Rule 95    lista_argumentos -> lista_argumentos VIRGULA expressao
+   yacc.py:3381:Rule 96    lista_argumentos -> expressao
+   yacc.py:3381:Rule 97    lista_argumentos -> vazio
+   yacc.py:3381:Rule 98    vazio -> <empty>
+   yacc.py:3381:Rule 99    declaracao_funcao -> error
+   yacc.py:3399:
+   yacc.py:3400:Terminals, with rules where they appear
+   yacc.py:3401:
+   yacc.py:3405:ABRE_COLCHETE        : 13 14 15 16 17 30 34
+   yacc.py:3405:ABRE_PARENTESE       : 23 24 25 56 57 58 59 86 90 94
+   yacc.py:3405:ATE                  : 52 53
+   yacc.py:3405:ATRIBUICAO           : 55
+   yacc.py:3405:DIFERENCA            : 
+   yacc.py:3405:DIVISAO              : 
+   yacc.py:3405:DOIS_PONTOS          : 7 29
+   yacc.py:3405:ENTAO                : 44 46 48 49 50 51
+   yacc.py:3405:ESCREVA              : 58
+   yacc.py:3405:E_LOGICO             : 
+   yacc.py:3405:FECHA_COLCHETE       : 13 14 15 16 17 30 33
+   yacc.py:3405:FECHA_PARENTESE      : 22 24 25 56 57 58 59 86 90 94
+   yacc.py:3405:FIM                  : 22 23 25 44 45 46 47 48 50 51
+   yacc.py:3405:FLUTUANTE            : 19
+   yacc.py:3405:ID                   : 11 12 22 23 24 25 29 31 32 94
+   yacc.py:3405:IGUAL                : 75
+   yacc.py:3405:INTEIRO              : 18
+   yacc.py:3405:LEIA                 : 56 57
+   yacc.py:3405:MAIOR                : 74
+   yacc.py:3405:MAIOR_IGUAL          : 78
+   yacc.py:3405:MAIS                 : 79
+   yacc.py:3405:MENOR                : 73
+   yacc.py:3405:MENOR_IGUAL          : 77
+   yacc.py:3405:MENOS                : 80
+   yacc.py:3405:MULTIPLICACAO        : 
+   yacc.py:3405:NEGACAO              : 
+   yacc.py:3405:NUM_INTEIRO          : 91
+   yacc.py:3405:NUM_NOTACAO_CIENTIFICA : 93
+   yacc.py:3405:NUM_PONTO_FLUTUANTE  : 92
+   yacc.py:3405:OU_LOGICO            : 
+   yacc.py:3405:REPITA               : 52 54
+   yacc.py:3405:RETORNA              : 59
+   yacc.py:3405:SE                   : 45 47 48 49 50 51
+   yacc.py:3405:SENAO                : 46 47 49 51
+   yacc.py:3405:VIRGULA              : 9 26 95
+   yacc.py:3405:error                : 15 16 17 22 23 31 32 33 34 44 45 46 47 48 53 54 57 90 99
+   yacc.py:3407:
+   yacc.py:3408:Nonterminals, with rules where they appear
+   yacc.py:3409:
+   yacc.py:3413:DIFERENTE            : 76
+   yacc.py:3413:DIVIDE               : 85
+   yacc.py:3413:E                    : 81
+   yacc.py:3413:NAO                  : 83
+   yacc.py:3413:OU                   : 82
+   yacc.py:3413:VEZES                : 84
+   yacc.py:3413:acao                 : 35
+   yacc.py:3413:atribuicao           : 8 61
+   yacc.py:3413:cabecalho            : 20 21
+   yacc.py:3413:chamada_funcao       : 88
+   yacc.py:3413:corpo                : 22 23 24 25 35 44 45 46 46 47 47 48 48 49 49 50 51 51 52 53 54
+   yacc.py:3413:declaracao           : 2 3
+   yacc.py:3413:declaracao_funcao    : 6
+   yacc.py:3413:declaracao_variaveis : 4 38
+   yacc.py:3413:escreva              : 42
+   yacc.py:3413:expressao            : 13 14 15 37 44 45 46 47 48 49 50 51 52 53 54 55 58 59 86 95 96
+   yacc.py:3413:expressao_aditiva    : 64 65 67
+   yacc.py:3413:expressao_logica     : 60 63
+   yacc.py:3413:expressao_multiplicativa : 66 67 69
+   yacc.py:3413:expressao_simples    : 62 63 65
+   yacc.py:3413:expressao_unaria     : 68 69
+   yacc.py:3413:fator                : 70 71 72
+   yacc.py:3413:indice               : 12 13 16
+   yacc.py:3413:inicializacao_variaveis : 5
+   yacc.py:3413:leia                 : 41
+   yacc.py:3413:lista_argumentos     : 94 95
+   yacc.py:3413:lista_declaracoes    : 1 2
+   yacc.py:3413:lista_parametros     : 22 23 24 25 26
+   yacc.py:3413:lista_variaveis      : 7 9
+   yacc.py:3413:numero               : 89
+   yacc.py:3413:operador_logico      : 63
+   yacc.py:3413:operador_multiplicacao : 69
+   yacc.py:3413:operador_negacao     : 72
+   yacc.py:3413:operador_relacional  : 65
+   yacc.py:3413:operador_soma        : 67 71
+   yacc.py:3413:parametro            : 26 27 30 33 34
+   yacc.py:3413:programa             : 0
+   yacc.py:3413:repita               : 40
+   yacc.py:3413:retorna              : 43
+   yacc.py:3413:se                   : 39
+   yacc.py:3413:tipo                 : 7 20 29 31
+   yacc.py:3413:var                  : 9 10 55 56 87
+   yacc.py:3413:vazio                : 28 36 97
+   yacc.py:3414:
