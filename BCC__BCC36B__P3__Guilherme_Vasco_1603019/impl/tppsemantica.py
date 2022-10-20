@@ -70,8 +70,8 @@ def encontrar_parametros(root, escope, list_node):
 
 
 def chamada_funcao(line, func_list):
-    for element in func_list:
-        for func in func_list[element]:
+    for funcao in func_list:
+        for func in func_list[funcao]:
             if func[5] <= line < func[6]:
                 return func[0]
 
@@ -80,8 +80,8 @@ def linha_limpa(lst):
     return [t for t in (set(tuple(i) for i in lst))]
 
 
-def variavel_escopo(element, escopo='global'):
-    for var in var_list[element]:
+def variavel_escopo(i, escopo='global'):
+    for var in var_list[i]:
         if var[4] == escopo:
             return var
 
@@ -89,8 +89,8 @@ def variavel_escopo(element, escopo='global'):
 def gerar_tabela_funcao(list, header, list_index):
     table = [header]
 
-    for element in list:
-        for func in list[element]:
+    for i in list:
+        for func in list[i]:
             aux_array = []
             for index in list_index:
                 aux_array.append(func[index])
@@ -102,8 +102,8 @@ def gerar_tabela_funcao(list, header, list_index):
 def gerar_tabela_variaveis(list, header, list_index):
     table = [header]
 
-    for element in list:
-        for func in list[element]:
+    for i in list:
+        for func in list[i]:
             aux_array = []
             for index in list_index:
                 if index == 3:
@@ -140,8 +140,8 @@ def check_principal(func_list, message_list):
 
 def check_retorno_funcoes(func_list, message_list):
     message = ''
-    for element in func_list:
-        for func in func_list[element]:
+    for funcao in func_list:
+        for func in func_list[funcao]:
             type_func = func[1]
 
             return_types = list()
@@ -154,29 +154,29 @@ def check_retorno_funcoes(func_list, message_list):
                 if len(return_types) > 0:
                     if len(return_types) > 1:
                         message = ('ERROR',
-                                   f'Erro: Função {element} deveria retornar vazio, mas retorna {return_types[0]} e {return_types[1]}.')
+                                   f'Erro: Função {funcao} deveria retornar vazio, mas retorna {return_types[0]} e {return_types[1]}.')
                     else:
                         message = ('ERROR',
-                                   f'Erro: Função {element} deveria retornar vazio, mas retorna {return_types[0]}.')
+                                   f'Erro: Função {funcao} deveria retornar vazio, mas retorna {return_types[0]}.')
             elif type_func == 'inteiro':
                 if len(return_types) == 0:
                     message = ('ERROR',
-                               f'Erro: Função {element} deveria retornar inteiro, mas retorna vazio.')
+                               f'Erro: Função {funcao} deveria retornar inteiro, mas retorna vazio.')
                 else:
                     for type_return in return_types:
                         if type_return != 'inteiro' and type_return != 'ERROR':
                             message = ('ERROR',
-                                       f'Erro: Função {element} deveria retornar inteiro, mas retorna flutuante.')
+                                       f'Erro: Função {funcao} deveria retornar inteiro, mas retorna flutuante.')
                             break
             elif type_func == 'flutuante':
                 if len(return_types) == 0:
                     message = ('ERROR',
-                               f'Erro: Função {element} deveria retornar flutuante, mas retorna vazio.')
+                               f'Erro: Função {funcao} deveria retornar flutuante, mas retorna vazio.')
                 else:
                     for type_return in return_types:
                         if type_return != 'flutuante' and type_return != 'ERROR':
                             message = ('ERROR',
-                                       f'Erro: Função {element} deveria retornar flutuante, mas retorna inteiro.')
+                                       f'Erro: Função {funcao} deveria retornar flutuante, mas retorna inteiro.')
                             break
 
             if message != '':
@@ -185,39 +185,39 @@ def check_retorno_funcoes(func_list, message_list):
 
 def check_chamada_funcoes(func_list, message_list):
     message = ''
-    for element in func_list:
-        for func in func_list[element]:
+    for funcao in func_list:
+        for func in func_list[funcao]:
             if not func[-2]:
                 message = ('ERROR',
-                           f'Erro: Chamada a função {element} que não foi declarada.')
+                           f'Erro: Chamada a função {funcao} que não foi declarada.')
                 message_list.append(message)
 
             else:
-                if len(func[-1]) == 0 and element != 'principal':
+                if len(func[-1]) == 0 and funcao != 'principal':
                     message = ('WARNING',
-                               f'Aviso: Função {element} declarada, mas não utilizada.')
+                               f'Aviso: Função {funcao} declarada, mas não utilizada.')
                     message_list.append(message)
                 else:
                     calls = 0
                     recursion = 0
                     for call_func in func[-1]:
                         func_called = chamada_funcao(call_func[0], func_list)
-                        if func_called != element:
+                        if func_called != funcao:
                             calls += 1
                         else:
                             recursion += 1
 
-                    if element == 'principal':
+                    if funcao == 'principal':
                         calls += 1
 
                     if calls == 0:
                         message = ('WARNING',
-                                   f'Aviso: Função {element} declarada, mas não utilizada.')
+                                   f'Aviso: Função {funcao} declarada, mas não utilizada.')
                         message_list.append(message)
 
                     elif recursion > 0:
                         message = ('WARNING',
-                                   f'Aviso: Chamada recursiva para {element}.')
+                                   f'Aviso: Chamada recursiva para {funcao}.')
                         message_list.append(message)
 
                 for call in func[-1]:
@@ -278,15 +278,15 @@ def check_chamada_variaveis(var_list, message_list, root):
                                        f'Aviso: Variável ‘{id_read}’ declarada e não utilizada. ')
                             message_list.append(message)
 
-    for element in var_list:
-        for var in var_list[element]:
+    for variavel in var_list:
+        for var in var_list[variavel]:
             if len(var[-1]) == 0:
                 message = ('WARNING',
                            f'Aviso: Variável ‘{var[0]}’ declarada e não inicializada. ')
                 message_list.append(message)
 
-            if len(var_list[element]) > 1:
-                for var2 in var_list[element]:
+            if len(var_list[variavel]) > 1:
+                for var2 in var_list[variavel]:
                     if var2 != var and var2[4] == var[4]:
                         message = ('WARNING', f'Aviso: Variável ‘{var2[0]}‘ já declarada anteriormente.')
                         message_list.append(message)
@@ -321,8 +321,8 @@ def check_atribucao_tipo(var_list, message_list, root):
 
 
 def check_variaveis_array(var_list, message_list):
-    for element in var_list:
-        for var in var_list[element]:
+    for variavel in var_list:
+        for var in var_list[variavel]:
             if var[2] != 0:
                 for dimension in var[3]:
                     dimension_number = 0
@@ -444,21 +444,21 @@ def main():
 
     root, func_list, var_list, message_list = tppparser.main()
 
-    for element in var_list:
-        for index_var in range(len(var_list[element])):
-            escopo_atual = var_list[element][index_var][4]
+    for variavel in var_list:
+        for index_var in range(len(var_list[variavel])):
+            escopo_atual = var_list[variavel][index_var][4]
             if escopo_atual != 'global':
-                len_call_list = len(var_list[element][index_var][-1])
+                len_call_list = len(var_list[variavel][index_var][-1])
                 tuple_call_index = 0
 
                 while tuple_call_index < len_call_list:
-                    tuple_call = var_list[element][index_var][-1][tuple_call_index]
+                    tuple_call = var_list[variavel][index_var][-1][tuple_call_index]
                     if func_list[escopo_atual][0][5] <= tuple_call[0] < func_list[escopo_atual][0][6]:
                         pass
                     else:
-                        new_var_escopo = variavel_escopo(element, 'global')
+                        new_var_escopo = variavel_escopo(variavel, 'global')
                         new_var_escopo[-1].append(tuple_call)
-                        var_list[element][index_var][-1].pop(tuple_call_index)
+                        var_list[variavel][index_var][-1].pop(tuple_call_index)
                         len_call_list -= 1
                         tuple_call_index -= 1
 

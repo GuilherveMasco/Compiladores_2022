@@ -141,6 +141,8 @@ def p_declaracao(p):
 def p_declaracao_variaveis(p):
     """declaracao_variaveis : tipo DOIS_PONTOS lista_variaveis"""
 
+    global escopo
+
     pai = MyNode(name='declaracao_variaveis', type='DECLARACAO_VARIAVEIS')
     p[0] = pai
 
@@ -255,6 +257,8 @@ def p_indice_error(p):
                 | indice ABRE_COLCHETE error FECHA_COLCHETE
     """
 
+    global parser
+
     print("Erro na definicao do indice. Expressao ou indice.")
 
     print("Erro:p[0]:{p0}, p[1]:{p1}, p[2]:{p2}, p[3]:{p3}".format(
@@ -312,6 +316,11 @@ def p_declaracao_funcao(p):
 
 def p_cabecalho(p):
     """cabecalho : ID ABRE_PARENTESE lista_parametros FECHA_PARENTESE corpo FIM"""
+    
+    global escopo
+
+    # Nome da função
+    name_func = p.slice[1].value
 
     pai = MyNode(name='cabecalho', type='CABECALHO')
     p[0] = pai
@@ -320,13 +329,13 @@ def p_cabecalho(p):
     filho_id = MyNode(name=p[1], type='ID', parent=filho1)
     p[1] = filho1
 
-    filho2 = MyNode(name='ABRE_PARENTESE', type='ABRE_PARENTESE', parent=pai)
+    filho2 = MyNode(name='abre_parentese', type='ABRE_PARENTESE', parent=pai)
     filho_sym2 = MyNode(name='(', type='SIMBOLO', parent=filho2)
     p[2] = filho2
 
     p[3].parent = pai  # lista_parametros
 
-    filho4 = MyNode(name='FECHA_PARENTESE', type='FECHA_PARENTESE', parent=pai)
+    filho4 = MyNode(name='fecha_parentese', type='FECHA_PARENTESE', parent=pai)
     filho_sym4 = MyNode(name=')', type='SIMBOLO', parent=filho4)
     p[4] = filho4
 
@@ -336,7 +345,6 @@ def p_cabecalho(p):
     filho_id = MyNode(name='fim', type='FIM', parent=filho6)
     p[6] = filho6
 
-    name_func = p.slice[1].value
     # Tipo da função
     if p.stack[-1].value.children[0].label == 'INTEIRO':
         type_func = 'inteiro'
@@ -415,6 +423,8 @@ def p_cabecalho_error(p):
                 | error ABRE_PARENTESE lista_parametros FECHA_PARENTESE corpo FIM 
     """
 
+    global parser
+
     print("Erro no cabeçalho.")
 
     print("Erro:p[0]:{p0}, p[1]:{p1}, p[2]:{p2}, p[3]:{p3}, p[3]:{p4}, p[3]:{p5}, p[3]:{p6}".format(
@@ -447,6 +457,7 @@ def p_parametro(p):
     """parametro : tipo DOIS_PONTOS ID
                 | parametro ABRE_COLCHETE FECHA_COLCHETE
     """
+
     global escopo
 
     pai = MyNode(name='parametro', type='PARAMETRO')
@@ -488,6 +499,8 @@ def p_parametro_error(p):
                 | parametro error FECHA_COLCHETE
                 | parametro ABRE_COLCHETE error
     """
+
+    global parser
 
     print("Erro de parâmetro ou colchete.")
 
@@ -592,6 +605,8 @@ def p_se_error(p):
         | SE expressao ENTAO corpo SENAO corpo
     """
 
+    global parser
+
     print("Erro na expressão da condição SE.")
 
     if len(p) == 8:
@@ -637,6 +652,8 @@ def p_repita_error(p):
     """repita : error corpo ATE expressao
             | REPITA corpo error expressao
     """
+
+    global parser
 
     print("Erro na expressão REPITA.")
 
@@ -694,6 +711,8 @@ def p_leia(p):
 def p_leia_error(p):
     """leia : LEIA ABRE_PARENTESE error FECHA_PARENTESE
     """
+
+    global parser
 
     print("Erro na leitura.")
 
@@ -756,6 +775,7 @@ def p_expressao(p):
     """expressao : expressao_logica
                     | atribuicao
     """
+
     pai = MyNode(name='expressao', type='EXPRESSAO')
     p[0] = pai
     p[1].parent = pai
@@ -765,6 +785,7 @@ def p_expressao_logica(p):
     """expressao_logica : expressao_simples
                     | expressao_logica operador_logico expressao_simples
     """
+
     pai = MyNode(name='expressao_logica', type='EXPRESSAO_LOGICA')
     p[0] = pai
     p[1].parent = pai
@@ -822,6 +843,7 @@ def p_expressao_unaria(p):
                         | operador_soma fator
                         | operador_negacao fator
         """
+
     pai = MyNode(name='expressao_unaria', type='EXPRESSAO_UNARIA')
     p[0] = pai
     p[1].parent = pai
@@ -846,6 +868,7 @@ def p_operador_relacional(p):
                             | MENOR_IGUAL
                             | MAIOR_IGUAL
     """
+
     pai = MyNode(name='operador_relacional', type='OPERADOR_RELACIONAL')
     p[0] = pai
 
@@ -877,6 +900,7 @@ def p_operador_soma(p):
     """operador_soma : MAIS
                     | MENOS
     """
+
     if p[1] == "+":
         mais = MyNode(name='MAIS', type='MAIS')
         mais_lexema = MyNode(name='+', type='SIMBOLO', parent=mais)
@@ -893,6 +917,7 @@ def p_operador_logico(p):
     """operador_logico : E_LOGICO
                     | OU_LOGICO
     """
+
     if p[1] == "&&":
         filho = MyNode(name='E_LOGICO', type='E_LOGICO')
         filho_lexema = MyNode(name=p[1], type='SIMBOLO', parent=filho)
@@ -919,6 +944,7 @@ def p_operador_multiplicacao(p):
     """operador_multiplicacao : MULTIPLICACAO
                             | DIVISAO
         """
+
     if p[1] == "*":
         filho = MyNode(name='MULTIPLICACAO', type='MULTIPLICACAO')
         vezes_lexema = MyNode(name=p[1], type='SIMBOLO', parent=filho)
@@ -937,6 +963,7 @@ def p_fator(p):
             | chamada_funcao
             | numero
         """
+
     pai = MyNode(name='fator', type='FATOR')
     p[0] = pai
     if len(p) > 2:
@@ -956,6 +983,8 @@ def p_fator(p):
 def p_fator_error(p):
     """fator : ABRE_PARENTESE error FECHA_PARENTESE
         """
+
+    global parser
 
     print("Erro na definicao do fator.")
 
@@ -1035,6 +1064,7 @@ def p_lista_argumentos(p):
                     | expressao
                     | vazio
         """
+
     pai = MyNode(name='lista_argumentos', type='LISTA_ARGUMENTOS')
     p[0] = pai
 
@@ -1065,7 +1095,7 @@ def p_error(p):
 
 # Programa principal.
 def main():
-    global root
+    global root, parser
     root = None
     # argv[1] = 'teste.tpp'
     aux = argv[1].split('.')
