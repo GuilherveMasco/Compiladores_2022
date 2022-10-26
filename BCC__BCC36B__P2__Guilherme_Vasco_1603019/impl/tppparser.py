@@ -106,7 +106,6 @@ def p_lista_declaracoes(p):
     """lista_declaracoes : lista_declaracoes declaracao
                         | declaracao
     """
-
     pai = MyNode(name='lista_declaracoes', type='LISTA_DECLARACOES')
     p[0] = pai
     p[1].parent = pai
@@ -127,7 +126,6 @@ def p_declaracao(p):
                 | inicializacao_variaveis
                 | declaracao_funcao
     """
-
     pai = MyNode(name='declaracao', type='DECLARACAO')
     p[0] = pai
     p[1].parent = pai
@@ -174,11 +172,9 @@ def p_declaracao_variaveis(p):
                 dimension_name.append((aux[-1].children[-1].children[-1].label, aux[-1].children[-1].label))
 
         if name_var in var_list:
-            # message = ('WARNING', f'Aviso: Variável "{name_var}" já declarada anteriormente.')
-            # message_list.append(message)
-            var_list[name_var].append([name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()])
+            var_list[name_var].append(['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()])
         else:
-            var_list[name_var] = [[name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()]]
+            var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()]]
 
 # Sub-árvore.
 #   (inicializacao_variaveis)
@@ -228,7 +224,6 @@ def p_indice(p):
     """indice : indice ABRE_COLCHETE expressao FECHA_COLCHETE
                 | ABRE_COLCHETE expressao FECHA_COLCHETE
     """
-
     pai = MyNode(name='indice', type='INDICE')
     p[0] = pai
     if len(p) == 5:
@@ -309,7 +304,6 @@ def p_declaracao_funcao(p):
     """declaracao_funcao : tipo cabecalho 
                         | cabecalho 
     """
-
     pai = MyNode(name='declaracao_funcao', type='DECLARACAO_FUNCAO')
     p[0] = pai
     p[1].parent = pai
@@ -492,9 +486,9 @@ def p_parametro(p):
 
     if name_var in var_list:
         var_list[name_var].append(
-            [name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()])
+            ['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()])
     else:
-        var_list[name_var] = [[name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()]]
+        var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()]]
 
 
 def p_parametro_error(p):
@@ -550,7 +544,6 @@ def p_acao(p):
         | escreva
         | retorna
     """
-
     pai = MyNode(name='acao', type='ACAO')
     p[0] = pai
     p[1].parent = pai
@@ -714,7 +707,8 @@ def p_leia(p):
 
 
 def p_leia_error(p):
-    """leia : LEIA ABRE_PARENTESE error FECHA_PARENTESE"""
+    """leia : LEIA ABRE_PARENTESE error FECHA_PARENTESE
+    """
 
     global parser
 
@@ -830,7 +824,7 @@ def p_expressao_aditiva(p):
 def p_expressao_multiplicativa(p):
     """expressao_multiplicativa : expressao_unaria
                                | expressao_multiplicativa operador_multiplicacao expressao_unaria
-    """
+        """
 
     pai = MyNode(name='expressao_multiplicativa',
                  type='EXPRESSAO_MULTIPLICATIVA')
@@ -846,7 +840,7 @@ def p_expressao_unaria(p):
     """expressao_unaria : fator
                         | operador_soma fator
                         | operador_negacao fator
-    """
+        """
 
     pai = MyNode(name='expressao_unaria', type='EXPRESSAO_UNARIA')
     p[0] = pai
@@ -947,7 +941,7 @@ def p_operador_negacao(p):
 def p_operador_multiplicacao(p):
     """operador_multiplicacao : MULTIPLICACAO
                             | DIVISAO
-    """
+        """
 
     if p[1] == "*":
         filho = MyNode(name='MULTIPLICACAO', type='MULTIPLICACAO')
@@ -966,7 +960,7 @@ def p_fator(p):
             | var
             | chamada_funcao
             | numero
-    """
+        """
 
     pai = MyNode(name='fator', type='FATOR')
     p[0] = pai
@@ -985,7 +979,8 @@ def p_fator(p):
 
 
 def p_fator_error(p):
-    """fator : ABRE_PARENTESE error FECHA_PARENTESE"""
+    """fator : ABRE_PARENTESE error FECHA_PARENTESE
+        """
 
     global parser
 
@@ -1066,7 +1061,7 @@ def p_lista_argumentos(p):
     """lista_argumentos : lista_argumentos VIRGULA expressao
                     | expressao
                     | vazio
-    """
+        """
 
     pai = MyNode(name='lista_argumentos', type='LISTA_ARGUMENTOS')
     p[0] = pai
