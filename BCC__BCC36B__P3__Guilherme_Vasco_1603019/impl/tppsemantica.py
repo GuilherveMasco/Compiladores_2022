@@ -106,7 +106,7 @@ def gerar_tabela_variaveis(list, header, list_index):
         for func in list[i]:
             aux_array = []
             for index in list_index:
-                if index == 3:
+                if index == 5:
                     dim_tam = []
                     for j in range(len(func[index])):
                         if func[index][j][1] == 'NUM_PONTO_FLUTUANTE':
@@ -280,15 +280,16 @@ def check_chamada_variaveis(var_list, message_list, root):
 
     for variavel in var_list:
         for var in var_list[variavel]:
-            if len(var[-1]) == 0:
+            if len(var[-1]) == 0: 
+                var[7] = 'N'
                 message = ('WARNING',
-                           f'Aviso: Variável ‘{var[0]}’ declarada e não inicializada. ')
+                           f'Aviso: Variável ‘{var[1]}’ declarada e não inicializada. ')
                 message_list.append(message)
 
             if len(var_list[variavel]) > 1:
                 for var2 in var_list[variavel]:
                     if var2 != var and var2[4] == var[4]:
-                        message = ('WARNING', f'Aviso: Variável ‘{var2[0]}‘ já declarada anteriormente.')
+                        message = ('WARNING', f'Aviso: Variável ‘{var2[1]}‘ já declarada anteriormente.')
                         message_list.append(message)
 
 
@@ -324,9 +325,9 @@ def check_variaveis_array(var_list, message_list):
     for variavel in var_list:
         for var in var_list[variavel]:
             if var[2] != 0:
-                for dimension in var[3]:
+                for dimension in var[5]:
                     dimension_number = 0
-                    if dimension[1] != 'NUM_INTEIRO':
+                    if dimension[2] != 'NUM_INTEIRO':
                         dimension_number = float(dimension[0])
                         message = ('ERROR',
                                    f'Erro: Índice de array ‘{var[0]}’ não inteiro.')
@@ -344,11 +345,11 @@ def check_variaveis_array(var_list, message_list):
                             numero = int(numero[0].descendants[-1].label)
                             if numero > dimension_number - 1:
                                 message = ('ERROR',
-                                           f'Erro: Índice de array ‘{var[0]}’ fora do intervalo (out of range).')
+                                           f'Erro: Índice de array ‘{var[1]}’ fora do intervalo (out of range).')
                                 message_list.append(message)
 
 
-def check_semantica(func_list, var_list, message_list, sym_table, root):
+def check_semantica(func_list, var_list, message_list, root):
     check_principal(func_list, message_list)
     check_retorno_funcoes(func_list, message_list)
     check_chamada_funcoes(func_list, message_list)
@@ -446,7 +447,7 @@ def main():
 
     for variavel in var_list:
         for index_var in range(len(var_list[variavel])):
-            escopo_atual = var_list[variavel][index_var][4]
+            escopo_atual = var_list[variavel][index_var][6]
             if escopo_atual != 'global':
                 len_call_list = len(var_list[variavel][index_var][-1])
                 tuple_call_index = 0
@@ -464,13 +465,12 @@ def main():
 
                     tuple_call_index += 1
 
-    sym_table = gerar_tabela_variaveis(var_list, ['Lexema', 'Tipo', 'Dim', 'Tam_dim', 'Escopo', 'Linha'],
-                                   [0, 1, 2, 3, 4, 5])
+    check_semantica(func_list, var_list, message_list, root)
+
+    sym_table = gerar_tabela_variaveis(var_list, ['Token', 'Lexema', 'Tipo', 'Dim', 'Tam_dim_1', 'Tam_dim_2', 'Escopo', 'Init', 'Linha'],[0, 1, 2, 3, 4, 5, 6, 7, 8])
 
     print(f'\x1B[3mTABELA DE SÍMBOLOS\x1B[0m\n{tabulate(sym_table, headers="firstrow", tablefmt="rounded_outline")}')
     print('\n\n')
-
-    check_semantica(func_list, var_list, message_list, sym_table, root)
 
     erros = 0
     message_list = linha_limpa(message_list)

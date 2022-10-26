@@ -172,11 +172,9 @@ def p_declaracao_variaveis(p):
                 dimension_name.append((aux[-1].children[-1].children[-1].label, aux[-1].children[-1].label))
 
         if name_var in var_list:
-            # message = ('WARNING', f'Aviso: Variável "{name_var}" já declarada anteriormente.')
-            # message_list.append(message)
-            var_list[name_var].append([name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()])
+            var_list[name_var].append(['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()])
         else:
-            var_list[name_var] = [[name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()]]
+            var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()]]
 
 # Sub-árvore.
 #   (inicializacao_variaveis)
@@ -488,9 +486,9 @@ def p_parametro(p):
 
     if name_var in var_list:
         var_list[name_var].append(
-            [name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()])
+            ['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()])
     else:
-        var_list[name_var] = [[name_var, type_var, len(dimensions), dimension_name, escopo, p.lineno(2), list()]]
+        var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()]]
 
 
 def p_parametro_error(p):
