@@ -1110,7 +1110,7 @@ def main():
         UniqueDotExporter(root).to_picture(argv[1] + ".unique.ast.png")
         #DotExporter(root).to_dotfile(argv[1] + ".ast.dot")
         UniqueDotExporter(root).to_dotfile(argv[1] + ".unique.ast.dot")
-        print(RenderTree(root, style=AsciiStyle()).by_attr())
+        #print(RenderTree(root, style=AsciiStyle()).by_attr())
         print("Graph was generated.\nOutput file: " + argv[1] + ".unique.ast.png")
 
         #DotExporter(root, graph="graph",
