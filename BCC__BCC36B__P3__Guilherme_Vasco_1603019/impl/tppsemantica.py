@@ -39,14 +39,14 @@ def encontrar_parametros(root, escope, list_node):
             type_var = ''
             if var_name in var_list:
                 for var in var_list[var_name]:
-                    if var[4] == escope:
-                        type_var = var[1]
+                    if var[6] == escope:
+                        type_var = var[2]
                         break
 
                 if type_var == '':
                     for var in var_list[var_name]:
-                        if var[4] == 'global':
-                            type_var = var[1]
+                        if var[6] == 'global':
+                            type_var = var[2]
                             break
 
                 list_node.append((var_name, type_var))
@@ -236,8 +236,8 @@ def check_chamada_funcoes(func_list, message_list):
                         for func in func_list[call[1].descendants[1].label]:
                             for var_func in func[3]:
                                 for index in range(len(var_list[var_func])):
-                                    if var_list[var_func][index][4] == call[1].descendants[1].label:
-                                        parameters.append((var_list[var_func][index][0], var_list[var_func][index][1]))
+                                    if var_list[var_func][index][6] == call[1].descendants[1].label:
+                                        parameters.append((var_list[var_func][index][1], var_list[var_func][index][1]))
                                         break
 
                         for index in range(len(parameters)):
