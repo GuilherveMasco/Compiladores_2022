@@ -325,9 +325,9 @@ def check_variaveis_array(var_list, message_list):
     for variavel in var_list:
         for var in var_list[variavel]:
             if var[3] != 0:
-                for dimension in var[8]:
+                for dimension in var[4]:
                     dimension_number = 0
-                    if dimension[2] != 'NUM_INTEIRO':
+                    if dimension[1] != 'NUM_INTEIRO':
                         dimension_number = float(dimension[0])
                         message = ('ERROR',
                                    f'Erro: Índice de array ‘{var[1]}’ não inteiro.')
