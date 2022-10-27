@@ -246,10 +246,10 @@ def check_chamada_funcoes(func_list, message_list):
                                 type_index = 'flutuante'
                             else:
                                 type_index = 'inteiro'
-                            if parameters[index][1] != type_index:
+                            if parameters[index][2] != type_index:
                                 message = ('WARNING',
                                            f'Aviso: Coerção implícita do valor passado para váriavel ' +
-                                           f'‘{parameters[index][0]}‘ da função ‘{call[1].descendants[1].label}’.')
+                                           f'‘{parameters[index][1]}‘ da função ‘{call[1].descendants[1].label}’.')
                                 message_list.append(message)
 
 
@@ -324,13 +324,13 @@ def check_atribucao_tipo(var_list, message_list, root):
 def check_variaveis_array(var_list, message_list):
     for variavel in var_list:
         for var in var_list[variavel]:
-            if var[2] != 0:
-                for dimension in var[5]:
+            if var[3] != 0:
+                for dimension in var[8]:
                     dimension_number = 0
                     if dimension[2] != 'NUM_INTEIRO':
                         dimension_number = float(dimension[0])
                         message = ('ERROR',
-                                   f'Erro: Índice de array ‘{var[0]}’ não inteiro.')
+                                   f'Erro: Índice de array ‘{var[1]}’ não inteiro.')
                         message_list.append(message)
                     else:
                         dimension_number = int(dimension[0])
@@ -339,7 +339,7 @@ def check_variaveis_array(var_list, message_list):
                     if len(numero) > 0:
                         if len(encontrar_nos(numero[0], 'NUM_PONTO_FLUTUANTE', list())) > 0:
                             message = ('ERROR',
-                                       f'Erro: Índice de array ‘{var[0]}’ não inteiro.')
+                                       f'Erro: Índice de array ‘{var[1]}’ não inteiro.')
                             message_list.append(message)
                         else:
                             numero = int(numero[0].descendants[-1].label)
