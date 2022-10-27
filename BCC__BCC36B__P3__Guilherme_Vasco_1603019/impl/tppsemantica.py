@@ -497,8 +497,8 @@ def main():
     labels_ajuste = [':=', '+', '*', '-', '/']
     poda(root, label_remove_nodes)
     ajustar_arvore(root, labels_ajuste)
-    UniqueDotExporter(root).to_picture(f"{sys.argv[1]}.cut.unique.ast.png")
-    print(f"Poda da árvore gerada\nArquivo de destino: {sys.argv[1]}.cut.unique.ast.png")
+    UniqueDotExporter(root).to_picture(f"{sys.argv[1]}.prunned.unique.ast.png")
+    print(f"Poda da árvore gerada\nArquivo de destino: {sys.argv[1]}.prunned.unique.ast.png")
 
     return root, message_list, func_list, var_list
 
