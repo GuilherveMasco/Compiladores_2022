@@ -160,7 +160,7 @@ def p_declaracao_variaveis(p):
         type_var = p.slice[1].value.children[0].children[0].label
 
         dimensions = find_all_nodes(p.slice[-1].value, list(), 'expressao')
-        dimension_name = []
+        dimension_array = []
 
         if len(dimensions) > 0:
             for sun in dimensions:
@@ -169,12 +169,12 @@ def p_declaracao_variaveis(p):
                 if len(aux) == 0:
                     aux = find_all_nodes(sun, list(), 'var')
 
-                dimension_name.append((aux[-1].children[-1].children[-1].label, aux[-1].children[-1].label))
+                dimension_array.append((aux[-1].children[-1].children[-1].label, aux[-1].children[-1].label))
 
         if name_var in var_list:
-            var_list[name_var].append(['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()])
+            var_list[name_var].append(['ID', name_var, type_var, len(dimensions), dimension_array, dimension_array, escopo, 'S', p.lineno(2), list()])
         else:
-            var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()]]
+            var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_array, dimension_array, escopo, 'S', p.lineno(2), list()]]
 
 # Sub-árvore.
 #   (inicializacao_variaveis)
@@ -482,13 +482,13 @@ def p_parametro(p):
     type_var = p.slice[1].value.children[0].children[0].label
 
     dimensions = []
-    dimension_name = []
+    dimension_array = []
 
     if name_var in var_list:
         var_list[name_var].append(
-            ['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()])
+            ['ID', name_var, type_var, len(dimensions), dimension_array, dimension_array, escopo, 'S', p.lineno(2), list()])
     else:
-        var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_name, dimension_name, escopo, 'S', p.lineno(2), list()]]
+        var_list[name_var] = [['ID', name_var, type_var, len(dimensions), dimension_array, dimension_array, escopo, 'S', p.lineno(2), list()]]
 
 
 def p_parametro_error(p):

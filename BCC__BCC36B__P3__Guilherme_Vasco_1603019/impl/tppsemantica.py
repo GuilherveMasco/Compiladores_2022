@@ -114,7 +114,7 @@ def gerar_tabela_variaveis(list, header, list_index):
                         else:
                             value = int(func[index][j][0])
                         dim_tam.append(value)
-                    aux_array.append(dim_tam)
+                    aux_array.append(len(dim_tam)+1)
                 else:
                     aux_array.append(func[index])
             table.append(aux_array)
