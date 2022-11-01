@@ -326,7 +326,7 @@ def check_atribucao_tipo(var_list, message_list, root):
 
         if diferent_expression_type and diferent_expression_type != left_side[1]:
             message = ('WARNING',
-                       f'Aviso: Atribuição de tipos distintos ‘{left_side[0]}’ {left_side[1]} e ‘expressão’ {diferent_expression_type}')
+                       f'Aviso: Atribuição de tipos distintos ‘{left_side[0]}’ {left_side[1]} e ’{unique_right[0]}’ {diferent_expression_type}')
             message_list.append(message)
 
 
