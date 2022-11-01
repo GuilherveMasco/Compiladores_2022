@@ -311,7 +311,6 @@ def check_atribucao_tipo(var_list, message_list, root):
         except:
             escope_read = 'global'
 
-        # id_left = all_atribuicao_node[index].descendants[2].label
         right_side = encontrar_parametros(all_atribuicao_node[index], escope_read, list())
         left_side = right_side.pop(0)
 
@@ -321,7 +320,7 @@ def check_atribucao_tipo(var_list, message_list, root):
 
                 diferent_expression_type = unique_right[1]
                 message = ('WARNING',
-                           f'Aviso: Coerção implícita do valor de ‘{unique_right[0]}’.')
+                           f'Aviso: Coerção implícita do valor de ‘{left_side[0]}’.')
                 message_list.append(message)
 
         if diferent_expression_type and diferent_expression_type != left_side[1]:
