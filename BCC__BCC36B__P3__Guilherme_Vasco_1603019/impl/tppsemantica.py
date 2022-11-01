@@ -114,16 +114,13 @@ def gerar_tabela_variaveis(list, header, list_index):
                         else:
                             value = int(func[index][j][0])
                         dim_tam.append(value)
-                    aux_array.append(len(dim_tam)+1)
+                    if func[3] == 0:
+                        aux_array.append(len(dim_tam)+1)
+                    else:
+                        aux_array.append(len(dim_tam))
                 elif index == 5:
-                    dim_tam = []
-                    for m in range(len(func[index])):
-                        if func[index][j][1] == 'NUM_PONTO_FLUTUANTE':
-                            value = float(func[index][m][0])
-                        else:
-                            value = int(func[index][m][0])
-                        dim_tam.append(value)
-                    aux_array.append(len(dim_tam)+1)
+                    dim_tam = 0
+                    aux_array.append(dim_tam)
                 else:
                     aux_array.append(func[index])
             table.append(aux_array)
