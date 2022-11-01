@@ -365,7 +365,7 @@ def p_cabecalho(p):
     for element in var_list:
         for var in var_list[element]:
             if line_start <= var[-2] < line_end:
-                var[4] = name_func
+                var[6] = name_func
 
     # Tipos de Retorno
     all_retorna_nodes = find_all_nodes(p.slice[5].value, list(), 'RETORNA')
@@ -392,12 +392,12 @@ def p_cabecalho(p):
                             retorna_type = 'flutuante'
                 elif label_id in var_list:
                     for index in range(len(var_list[label_id]) - 1, -1, -1):
-                        if var_list[label_id][index][4] == name_func:
+                        if var_list[label_id][index][6] == name_func:
                             if var_list[label_id][index][1] == 'flutuante':
                                 retorna_type = 'flutuante'
                             break
-                        elif var_list[label_id][index][4] == 'global':
-                            if var_list[label_id][index][1] == 'flutuante':
+                        elif var_list[label_id][index][6] == 'global':
+                            if var_list[label_id][index][2] == 'flutuante':
                                 retorna_type = 'flutuante'
                             break
                 else:

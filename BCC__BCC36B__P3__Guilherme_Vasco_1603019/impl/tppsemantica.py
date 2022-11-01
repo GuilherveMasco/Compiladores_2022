@@ -82,7 +82,7 @@ def linha_limpa(lst):
 
 def variavel_escopo(i, escopo='global'):
     for var in var_list[i]:
-        if var[4] == escopo:
+        if var[6] == escopo:
             return var
 
 
@@ -106,13 +106,22 @@ def gerar_tabela_variaveis(list, header, list_index):
         for func in list[i]:
             aux_array = []
             for index in list_index:
-                if index == 5:
+                if index == 4:
                     dim_tam = []
                     for j in range(len(func[index])):
                         if func[index][j][1] == 'NUM_PONTO_FLUTUANTE':
                             value = float(func[index][j][0])
                         else:
                             value = int(func[index][j][0])
+                        dim_tam.append(value)
+                    aux_array.append(len(dim_tam)+1)
+                elif index == 5:
+                    dim_tam = []
+                    for m in range(len(func[index])):
+                        if func[index][j][1] == 'NUM_PONTO_FLUTUANTE':
+                            value = float(func[index][m][0])
+                        else:
+                            value = int(func[index][m][0])
                         dim_tam.append(value)
                     aux_array.append(len(dim_tam)+1)
                 else:
@@ -237,7 +246,7 @@ def check_chamada_funcoes(func_list, message_list):
                             for var_func in func[3]:
                                 for index in range(len(var_list[var_func])):
                                     if var_list[var_func][index][6] == call[1].descendants[1].label:
-                                        parameters.append((var_list[var_func][index][1], var_list[var_func][index][1]))
+                                        parameters.append((var_list[var_func][index][1], var_list[var_func][index][2]))
                                         break
 
                         for index in range(len(parameters)):
@@ -246,7 +255,7 @@ def check_chamada_funcoes(func_list, message_list):
                                 type_index = 'flutuante'
                             else:
                                 type_index = 'inteiro'
-                            if parameters[index][2] != type_index:
+                            if parameters[index][1] != type_index:
                                 message = ('WARNING',
                                            f'Aviso: Coerção implícita do valor passado para váriavel ' +
                                            f'‘{parameters[index][1]}‘ da função ‘{call[1].descendants[1].label}’.')
@@ -263,7 +272,7 @@ def check_chamada_variaveis(var_list, message_list, root):
 
         for var in var_list[id_read]:
             found = False
-            if var[4] == escope_read:
+            if var[6] == escope_read:
                 found = True
                 if len(var[-1]) == 0:
                     message = ('WARNING',
@@ -272,7 +281,7 @@ def check_chamada_variaveis(var_list, message_list, root):
 
             if not found:
                 for var in var_list[id_read]:
-                    if var[4] == 'global':
+                    if var[6] == 'global':
                         if len(var[-1]) == 0:
                             message = ('WARNING',
                                        f'Aviso: Variável ‘{id_read}’ declarada e não utilizada. ')
@@ -288,7 +297,7 @@ def check_chamada_variaveis(var_list, message_list, root):
 
             if len(var_list[variavel]) > 1:
                 for var2 in var_list[variavel]:
-                    if var2 != var and var2[4] == var[4]:
+                    if var2 != var and var2[6] == var[6]:
                         message = ('WARNING', f'Aviso: Variável ‘{var2[1]}‘ já declarada anteriormente.')
                         message_list.append(message)
 
