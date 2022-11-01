@@ -292,7 +292,7 @@ def check_chamada_variaveis(var_list, message_list, root):
             if len(var[-1]) == 0: 
                 var[7] = 'N'
                 message = ('WARNING',
-                           f'Aviso: Variável ‘{var[1]}’ declarada e não inicializada. ')
+                           f'Aviso: Variável ‘{var[1]}’ declarada e não utilizada. ')
                 message_list.append(message)
 
             if len(var_list[variavel]) > 1:
