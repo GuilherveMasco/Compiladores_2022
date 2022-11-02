@@ -2,7 +2,6 @@
 import sys
 
 from tabulate import tabulate
-from anytree import Node, RenderTree
 from anytree.exporter import UniqueDotExporter
 
 import tppparser
