@@ -1,6 +1,5 @@
 
 import sys
-import numpy as np
 
 from tabulate import tabulate
 from anytree import Node, RenderTree
@@ -472,11 +471,6 @@ def main():
 
     check_semantica(func_list, var_list, message_list, root)
 
-    sym_table = gerar_tabela_variaveis(var_list, ['Token', 'Lexema', 'Tipo', 'Dim', 'Tam_dim_1', 'Tam_dim_2', 'Escopo', 'Init', 'Linha'],[0, 1, 2, 3, 4, 5, 6, 7, 8])
-
-    print(f'\x1B[3mTABELA DE SÍMBOLOS\x1B[0m\n{tabulate(sym_table, headers="firstrow", tablefmt="rounded_outline")}')
-    print('\n\n')
-
     erros = 0
     message_list = linha_limpa(message_list)
     for message in message_list:
@@ -484,9 +478,14 @@ def main():
         if message[0] == 'ERROR':
             erros += 1
 
+    print('\n')
 
-    print('\n\n')
-    # if erros == 0:
+    sym_table = gerar_tabela_variaveis(var_list, ['Token', 'Lexema', 'Tipo', 'Dim', 'Tam_dim_1', 'Tam_dim_2', 'Escopo', 'Init', 'Linha'],[0, 1, 2, 3, 4, 5, 6, 7, 8])
+
+    print(f'\x1B[3mTABELA DE SÍMBOLOS\x1B[0m\n{tabulate(sym_table, headers="firstrow", tablefmt="rounded_outline")}')
+    
+    print('\n')
+    
     label_remove_nodes = ['ID', 'var', 'lista_variaveis', 'dois_pontos', 'tipo',
                         'INTEIRO', 'FLUTUANTE', 'NUM_INTEIRO', 'NUM_PONTO_FLUTUANTE',
                         'NUM_NOTACAO_CIENTIFICA', 'LEIA', 'abre_parentese', 'fecha_parentese',
