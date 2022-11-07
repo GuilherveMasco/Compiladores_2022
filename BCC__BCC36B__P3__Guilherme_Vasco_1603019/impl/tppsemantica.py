@@ -497,7 +497,10 @@ def main():
                         'expressao_simples', 'expressao_aditiva', 'expressao_multiplicativa',
                         'expressao_unaria', 'inicializacao_variaveis', 'atribuicao',
                         'operador_soma', 'mais', 'chamada_funcao', 'lista_argumentos',
-                        'cabecalho', 'lista_parametros']
+                        'cabecalho', 'lista_parametros', 'func', 'ABRE_PARENTESE',
+                        'FECHA_PARENTESE', 'ABRE_COLCHETE', 'FECHA_COLCHETE', 'DOIS_PONTOS',
+                        'declaracao_variaveis', 'MAIS', 'MENOS', 'VEZES', 'DIVIDISAO',
+                        'parametro']
 
     nos_ajuste = [':=', '+', '*', '-', '/']
     poda(root, nos_remocao)
