@@ -484,22 +484,24 @@ def main():
     print(f'\x1B[3mTABELA DE SÍMBOLOS\x1B[0m\n{tabulate(sym_table, headers="firstrow", tablefmt="rounded_outline")}')
     
     print('\n')
-    
-    label_remove_nodes = ['ID', 'var', 'lista_variaveis', 'dois_pontos', 'tipo',
+
+    nos_remocao = ['inteiro', 'flutuante', 'acao', 'ID', 'var', 'lista_variaveis',
                         'INTEIRO', 'FLUTUANTE', 'NUM_INTEIRO', 'NUM_PONTO_FLUTUANTE',
-                        'NUM_NOTACAO_CIENTIFICA', 'LEIA', 'abre_parentese', 'fecha_parentese',
-                        'lista_declaracoes', 'declaracao', 'indice', 'numero', 'fator',
-                        'abre_colchete', 'fecha_colchete', 'expressao', 'expressao_logica',
+                        'NUM_NOTACAO_CIENTIFICA', 'LEIA', 'RETORNA', 'ESCREVA', 'SE', 'ENTAO',
+                        'SENAO', 'VIRGULA', 'ATRIBUICAO', 'FIM', 'REPITA', 'dois_pontos',
+                        'tipo', 'abre_parentese', 'fecha_parentese', 'lista_declaracoes',
+                        'declaracao', 'indice', 'numero', 'fator', 'virgula', 'abre_colchete',
+                        'fecha_colchete', '(', ')', ':', ',', 'maior', 'menor','vezes',
+                        'igual', 'menos', 'menor_igual', 'maior_igual', 'operador_logico',
+                        'operador_multiplicacao', 'expressao', 'expressao_logica','vazio',
                         'expressao_simples', 'expressao_aditiva', 'expressao_multiplicativa',
-                        'expressao_unaria', 'inicializacao_variaveis', 'ATRIBUICAO', 'atribuicao',
-                        'operador_soma', 'mais', 'chamada_funcao', 'lista_argumentos', 'VIRGULA',
-                        'virgula', 'fator', 'cabecalho', 'FIM', 'lista_parametros', 'vazio',
-                        '(', ')', ':', ',', 'RETORNA', 'ESCREVA', 'SE', 'ENTAO', 'SENAO', 'maior',
-                        'menor', 'REPITA', 'igual', 'menos', 'menor_igual', 'maior_igual', 'operador_logico',
-                        'operador_multiplicacao', 'vezes']
-    labels_ajuste = [':=', '+', '*', '-', '/']
-    poda(root, label_remove_nodes)
-    ajustar_arvore(root, labels_ajuste)
+                        'expressao_unaria', 'inicializacao_variaveis', 'atribuicao',
+                        'operador_soma', 'mais', 'chamada_funcao', 'lista_argumentos',
+                        'cabecalho', 'lista_parametros']
+
+    nos_ajuste = [':=', '+', '*', '-', '/']
+    poda(root, nos_remocao)
+    ajustar_arvore(root, nos_ajuste)
     UniqueDotExporter(root).to_picture(f"{sys.argv[1]}.prunned.unique.ast.png")
     print(f"Poda da árvore gerada\nArquivo de destino: {sys.argv[1]}.prunned.unique.ast.png")
 
