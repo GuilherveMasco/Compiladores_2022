@@ -12,45 +12,28 @@ list_func = dict()
 func_exit = False
 
 
-def get_tipo(type):
-    if type == "inteiro":
-        default_type = ir.IntType(32)
-    elif type == "flutuante":
-        default_type = ir.FloatType()
+def get_tipo(variavel_tipo):
+    if variavel_tipo == "inteiro":
+        tipo = ir.IntType(32)
+    elif variavel_tipo == "flutuante":
+        tipo = ir.FloatType()
     else:
-        default_type = ir.VoidType()
+        tipo = ir.VoidType()
 
-    return default_type
+    return tipo
 
 
-def get_variavel_lista(var1):
+def get_variavel_lista(variavel):
     global escopo
 
+    # print("Variável: ", variavel)
+
     not_found = True
-    if escopo in var_list:
-        if any(var1 in var for var in var_list[escopo]):
-            for var in var_list[escopo]:
-                if var1 in var:
-                    not_found = False
-                    var1 = var[var1]
-                    break
-        else:
-            for var in var_list['global']:
-                if var1 in var:
-                    not_found = False
-                    var1 = var[var1]
-                    break
-    else:
-        for var in var_list['global']:
-            if var1 in var:
-                not_found = False
-                var1 = var[var1]
-                break
 
     if not_found:
         return None
 
-    return var1
+    return variavel
 
 
 def dec_variavel_global(node):
@@ -156,46 +139,46 @@ def retorno_codigo(node, builder, type_func, func):
 
 
 def leia_codigo(node, builder):
-    var1 = node.children[0].name
+    variavel = node.children[0].name
 
-    var1 = get_variavel_lista(var1)
-    var_type = var1.type.pointee.intrinsic_name
+    variavel = get_variavel_lista(variavel)
+    var_type = variavel.type.pointee.intrinsic_name
     if var_type == 'i32':
         result_read = builder.call(leiaInteiro, args=[])
     else:
         result_read = builder.call(leiaFlutuante, args=[])
 
-    builder.store(result_read, var1, align=4)
+    builder.store(result_read, variavel, align=4)
 
 
 def escreva_codigo(node, builder):
     if len(node.children) == 1:
-        var1 = node.children[0].name
+        variavel = node.children[0].name
 
-        var1 = get_variavel_lista(var1)
+        variavel = get_variavel_lista(variavel)
         try:
-            var_type = var1.type.pointee.intrinsic_name
+            var_type = variavel.type.pointee.intrinsic_name
         except:
-            var_type = var1.type.intrinsic_name
+            var_type = variavel.type.intrinsic_name
 
         if var_type == 'i32':
             try:
-                builder.call(escrevaInteiro, args=[var1])
+                builder.call(escrevaInteiro, args=[variavel])
             except:
-                builder.call(escrevaInteiro, args=[builder.load(var1)])
+                builder.call(escrevaInteiro, args=[builder.load(variavel)])
         else:
             try:
-                builder.call(escrevaFlutuante, args=[var1])
+                builder.call(escrevaFlutuante, args=[variavel])
             except:
-                builder.call(escrevaFlutuante, args=[builder.load(var1)])
+                builder.call(escrevaFlutuante, args=[builder.load(variavel)])
     elif len(node.children) == 2:
         name_func = node.children[0].name
         type_func = list_func[name_func].type.pointee.return_type.intrinsic_name
 
-        var1_arg = node.children[1].name
-        var1_arg = get_variavel_lista(var1_arg)
+        variavel_arg = node.children[1].name
+        variavel_arg = get_variavel_lista(variavel_arg)
 
-        escreva_arg = builder.call(list_func[name_func], args=[builder.load(var1_arg)])
+        escreva_arg = builder.call(list_func[name_func], args=[builder.load(variavel_arg)])
         if type_func == 'i32':
             builder.call(escrevaInteiro, args=[escreva_arg])
         else:
@@ -220,146 +203,22 @@ def escreva_codigo(node, builder):
 
 
 def atribuicao_codigo(node, builder):
-    dad = node.parent
+    variavel = node.children[0].name
+    operation = node.children[1].name
+    var1 = node.children[2].name
+    var2 = node.children[3].name
 
-    float_ty = ir.FloatType()
-    int_ty = ir.IntType(32)
+    var1 = get_variavel_lista(var1)
+    var2 = get_variavel_lista(var2)
 
-    recive = True
-    left = list()
-    right = list()
-    for children in dad.children:
-        if children.name != ':=':
-            if recive:
-                left.append(children.name)
-            else:
-                right.append(children.name)
-        else:
-            recive = False
-
-    var1 = None
-    if len(left) == 1:
-        var1 = get_variavel_lista(left[0])
-    else:
-        array_left = get_variavel_lista(left[0])
-        if len(left) == 4:
-            expression = builder.load(get_variavel_lista(left[2]))
-            var1 = builder.gep(array_left, [int_ty(0), expression], name=left[0]+'_'+left[2])
-        else:
-            expressions = list()
-            for indice in [left[2], left[4]]:
-                if indice.isnumeric():
-                    expressions.append(int_ty(indice))
-                else:
-                    expressions.append(builder.load(get_variavel_lista(indice)))
-
-            operation = left[3]
-            if operation == '+':
-                expression = builder.add(expressions[0], expressions[1],
-                                         name=left[0]+'_'+left[2]+left[3]+left[4], flags=())
-            else:
-                expression = builder.sub(expressions[0], expressions[1],
-                                         name=left[0] + '_' + left[2] + left[3] + left[4], flags=())
-
-            var1 = builder.gep(array_left, [int_ty(0), expression], name=left[0] + '_' + left[2] + left[3] + left[4])
-
-    try:
-        var_type = var1.type.pointee.intrinsic_name
-    except:
-        var_type = var1.type.intrinsic_name
-
-    next_operation = 'add'
-    if var_type == 'i32':
-        expression = ir.Constant(ir.IntType(32), 0)
-    else:
-        expression = ir.Constant(ir.FloatType(), float(0))
-
-    index = 0
-    while index < len(right):
-        if var_type == 'i32':
-            temp_expression = ir.Constant(ir.IntType(32), 0)
-        else:
-            temp_expression = ir.Constant(ir.FloatType(), float(0))
-
-        if right[index] != '+' and right[index] != '-' and right[index] != '*':
-
-            if var_type != 'i32':
-                if right[index] not in list_func and get_variavel_lista(right[index]) is None:
-                    value = float(right[index])
-                    temp_expression = ir.Constant(ir.FloatType(), value)
-            if right[index].isnumeric():
-                value = int(right[index])
-                temp_expression = ir.Constant(ir.IntType(32), value)
-
-            elif right[index] in list_func:
-                num_vars = func_list[right[index]][0][2]
-                func = list_func[right[index]]
-                args = list()
-                aux = 0
-
-                for next_index in range(index + 1, index + num_vars + 1):
-                    if right[next_index].isnumeric():
-                        param_name = func_list[right[index]][0][3][aux]
-                        type_param_name = var_list[param_name][0][1]
-                        if type_param_name == 'inteiro':
-                            value = int(right[next_index])
-                            args.append(ir.Constant(ir.IntType(32), value))
-                        else:
-                            value = float(right[next_index])
-                            args.append(ir.Constant(ir.FloatType(), value))
-
-                    elif get_variavel_lista(right[next_index]) is None:
-                        value = float(right[next_index])
-                        args.append(ir.Constant(ir.FloatType(), value))
-
-                    else:
-                        args.append(builder.load(get_variavel_lista(right[next_index])))
-
-                    aux += 1
-
-                temp_expression = builder.call(func, args=args)
-                index = index + num_vars
-            elif get_variavel_lista(right[index]) is not None:
-                if var_type == 'i32':
-                    if len(right) > index + 1 and right[index + 1] == '[':
-                        array_var = right[index]
-                        index_var = right[index + 2]
-
-                        array_var = get_variavel_lista(array_var)
-                        index_var_load = builder.load(get_variavel_lista(index_var))
-                        array_var_pos = builder.gep(array_var, [int_ty(0), index_var_load], name=f'{right[index]}[{right[index + 2]}]')
-                        temp_expression = builder.load(array_var_pos, align=4)
-
-                        index += 3
-                    else:
-                        try:
-                            temp_expression = builder.load(get_variavel_lista(right[index]))
-                        except:
-                            temp_expression = get_variavel_lista(right[index])
-
-            if next_operation == 'add':
-                if expression.type.intrinsic_name != 'i32' or temp_expression.type.intrinsic_name != 'i32':
-                    expression = builder.fadd(expression, temp_expression, name='expression', flags=())
-                else:
-                    expression = builder.add(expression, temp_expression, name='expression', flags=())
-            if next_operation == 'sub':
-                expression = builder.sub(expression, temp_expression, name='expression', flags=())
-            elif next_operation == 'mul':
-                expression = builder.mul(expression, temp_expression, name='expression', flags=())
-        else:
-            if right[index] == '+':
-                next_operation = 'add'
-            elif right[index] == '-':
-                next_operation = 'sub'
-            elif right[index] == '*':
-                next_operation = 'mul'
-
-        index += 1
-
-    try:
-        builder.store(expression, var1)
-    except:
-        builder.store(expression, var1)
+    if operation == '+':
+        builder.store(builder.add(var1, var2), get_variavel_lista(variavel))
+    elif operation == '-':
+        builder.store(builder.sub(var1, var2), get_variavel_lista(variavel))
+    elif operation == '*':
+        builder.store(builder.mul(var1, var2), get_variavel_lista(variavel))
+    elif operation == '/':
+        builder.store(builder.sdiv(var1, var2), get_variavel_lista(variavel))
 
 
 def se_codigo(node, builder, type_func, func):
@@ -477,34 +336,14 @@ def repita_codigo(node, builder, type_func, func):
 
 
 def chamada_funcao_codigo(node, builder):
-    int_ty = ir.IntType(32)
-    func_name = node.name
-
-    node_params = []
-    dad = node.parent
-    for children in dad.children:
-        if children != node:
-            node_params.append(children)
-
-    if len(node_params) == 1:
-        param = node_params[0].name
-
-        if param.isnumeric():
-            func_aux = list_func[func_name]
-            param_type = func_aux.args[0].type.intrinsic_name
-            if param_type == 'i32':
-                value = int_ty(int(param))
-            else:
-                value = ir.Constant(ir.FloatType(), float(param))
-            builder.call(func_aux, [value])
-        else:
-            pass
-    else:
-        pass
+    return
 
 
 def arvore(node, builder, type_func, func):
     global func_exit
+
+    # print("Nó: ", node.name)
+
     if node.name == 'retorna':
         func_exit = True
         retorno_codigo(node, builder, type_func, func)
@@ -612,7 +451,7 @@ if __name__ == '__main__':
 
     for message in message_list:
         if message[0] == 'ERROR':
-            print('Não foi possível gerar o código intermediário devido a erros no código!')
+            print('Não foi possível gerar código, pois o programa possui erros semânticos.')
             exit()
 
     file_name = sys.argv[1].split('/')[-1].split('.')[0]
@@ -638,7 +477,6 @@ if __name__ == '__main__':
     geracao(root)
 
     arquivo = open(f'geracao-codigo-testes/{file_name}.ll', 'w')
-    print(str(module))
     arquivo.write(str(module))
     arquivo.close()
 
