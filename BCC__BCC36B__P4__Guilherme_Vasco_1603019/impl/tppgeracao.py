@@ -7,7 +7,7 @@ from llvmlite import binding as llvm
 import tppsemantica
 
 escopo = 'global'
-var_list = {'global': []}
+var_list_gen = {'global': []}
 list_func = dict()
 func_exit = False
 
@@ -26,9 +26,27 @@ def get_tipo(variavel_tipo):
 def get_variavel_lista(variavel):
     global escopo
 
-    # print("Variável: ", variavel)
-
     not_found = True
+
+    if escopo in var_list_gen:
+        if any(variavel in var for var in var_list_gen[escopo]):
+            for var in var_list_gen[escopo]:
+                if variavel in var:
+                    not_found = False
+                    variavel = var[variavel]
+                    break
+        else:
+            for var in var_list_gen['global']:
+                if variavel in var:
+                    not_found = False
+                    variavel = var[variavel]
+                    break
+    else:
+        for var in var_list_gen['global']:
+            if variavel in var:
+                not_found = False
+                variavel = var[variavel]
+                break
 
     if not_found:
         return None
@@ -74,8 +92,8 @@ def dec_variavel_global(node):
 
 
 def dec_variavel_local(var, builder):
-    temp_var_type = get_tipo(var[1])
-    if var[2] > 0:
+    temp_var_type = get_tipo(var[2])
+    if var[3] > 0:
         temp_var_type = get_tipo('inteiro')
         for dim in var[3]:
             temp_var_type = ir.ArrayType(temp_var_type, int(dim[0]))
@@ -92,9 +110,9 @@ def dec_variavel_local(var, builder):
 
     temp_var.align = 4
 
-    if var[4] not in var_list:
-        var_list[var[4]] = []
-    var_list[var[4]].append({var[0]: temp_var})
+    if var[6] not in var_list_gen:
+        var_list_gen[var[6]] = []
+    var_list_gen[var[6]].append({var[1]: temp_var})
 
 
 def retorno_codigo(node, builder, type_func, func):
@@ -203,22 +221,145 @@ def escreva_codigo(node, builder):
 
 
 def atribuicao_codigo(node, builder):
-    variavel = node.children[0].name
-    operation = node.children[1].name
-    var1 = node.children[2].name
-    var2 = node.children[3].name
+    pai = node.parent
 
-    var1 = get_variavel_lista(var1)
-    var2 = get_variavel_lista(var2)
+    int_ty = ir.IntType(32)
 
-    if operation == '+':
-        builder.store(builder.add(var1, var2), get_variavel_lista(variavel))
-    elif operation == '-':
-        builder.store(builder.sub(var1, var2), get_variavel_lista(variavel))
-    elif operation == '*':
-        builder.store(builder.mul(var1, var2), get_variavel_lista(variavel))
-    elif operation == '/':
-        builder.store(builder.sdiv(var1, var2), get_variavel_lista(variavel))
+    flag = True
+    left = list()
+    right = list()
+    for children in pai.children:
+        if children.name != ':=':
+            if flag:
+                left.append(children.name)
+            else:
+                right.append(children.name)
+        else:
+            flag = False
+
+    var1 = None
+    if len(left) == 1:
+        var1 = get_variavel_lista(left[0])
+    else:
+        array_left = get_variavel_lista(left[0])
+        if len(left) == 4:
+            expression = builder.load(get_variavel_lista(left[2]))
+            var1 = builder.gep(array_left, [int_ty(0), expression], name=left[0]+'_'+left[2])
+        if len(left) > 4:
+            expressions = list()
+            for index in [left[2], left[4]]:
+                if index.isnumeric():
+                    expressions.append(int_ty(index))
+                else:
+                    expressions.append(builder.load(get_variavel_lista(index)))
+
+            operation = left[3]
+            if operation == '+':
+                expression = builder.add(expressions[0], expressions[1],
+                                         name=left[0]+'_'+left[2]+left[3]+left[4], flags=())
+            else:
+                expression = builder.sub(expressions[0], expressions[1],
+                                         name=left[0] + '_' + left[2] + left[3] + left[4], flags=())
+
+            var1 = builder.gep(array_left, [int_ty(0), expression], name=left[0] + '_' + left[2] + left[3] + left[4])
+
+    try:
+        type_var = var1.type.pointee.intrinsic_name
+    except:
+        type_var = var1.type.intrinsic_name
+
+    next_operation = 'add'
+    if type_var == 'i32':
+        expression = ir.Constant(ir.IntType(32), 0)
+    else:
+        expression = ir.Constant(ir.FloatType(), float(0))
+
+    index = 0
+    while index < len(right):
+        if type_var == 'i32':
+            temp_expression = ir.Constant(ir.IntType(32), 0)
+        else:
+            temp_expression = ir.Constant(ir.FloatType(), float(0))
+
+        if right[index] != '+' and right[index] != '-' and right[index] != '*':
+
+            if type_var != 'i32':
+                if right[index] not in list_func and get_variavel_lista(right[index]) is None:
+                    value = float(right[index])
+                    temp_expression = ir.Constant(ir.FloatType(), value)
+            if right[index].isnumeric():
+                value = int(right[index])
+                temp_expression = ir.Constant(ir.IntType(32), value)
+
+            elif right[index] in list_func:
+                num_vars = func_list[right[index]][0][2]
+                func = list_func[right[index]]
+                args = list()
+                aux = 0
+
+                for next_index in range(index + 1, index + num_vars + 1):
+                    if right[next_index].isnumeric():
+                        param_name = func_list[right[index]][0][3][aux]
+                        type_param_name = var_list[param_name][0][1]
+                        if type_param_name == 'inteiro':
+                            value = int(right[next_index])
+                            args.append(ir.Constant(ir.IntType(32), value))
+                        else:
+                            value = float(right[next_index])
+                            args.append(ir.Constant(ir.FloatType(), value))
+
+                    elif get_variavel_lista(right[next_index]) is None:
+                        value = float(right[next_index])
+                        args.append(ir.Constant(ir.FloatType(), value))
+
+                    else:
+                        args.append(builder.load(get_variavel_lista(right[next_index])))
+
+                    aux += 1
+
+                temp_expression = builder.call(func, args=args)
+                index = index + num_vars
+            elif get_variavel_lista(right[index]) is not None:
+                if type_var == 'i32':
+                    if len(right) > index + 1 and right[index + 1] == '[':
+                        array_var = right[index]
+                        index_var = right[index + 2]
+
+                        array_var = get_variavel_lista(array_var)
+                        index_var_load = builder.load(get_variavel_lista(index_var))
+                        array_var_pos = builder.gep(array_var, [int_ty(0), index_var_load], name=f'{right[index]}[{right[index + 2]}]')
+                        temp_expression = builder.load(array_var_pos, align=4)
+
+                        index += 3
+                    else:
+                        try:
+                            temp_expression = builder.load(get_variavel_lista(right[index]))
+                        except:
+                            temp_expression = get_variavel_lista(right[index])
+
+            if next_operation == 'add':
+                if expression.type.intrinsic_name != 'i32' or temp_expression.type.intrinsic_name != 'i32':
+                    expression = builder.fadd(expression, temp_expression, name='expression', flags=())
+                else:
+                    expression = builder.add(expression, temp_expression, name='expression', flags=())
+            if next_operation == 'sub':
+                expression = builder.sub(expression, temp_expression, name='expression', flags=())
+            elif next_operation == 'mul':
+                expression = builder.mul(expression, temp_expression, name='expression', flags=())
+        else:
+            if right[index] == '+':
+                next_operation = 'add'
+            elif right[index] == '-':
+                next_operation = 'sub'
+            elif right[index] == '*':
+                next_operation = 'mul'
+
+        index += 1
+
+    try:
+        builder.store(expression, var1)
+    except:
+        builder.store(expression, var1)
 
 
 def se_codigo(node, builder, type_func, func):
@@ -386,33 +527,35 @@ def dec_funcoes(node):
     escopo = name_func
     func_return_type = get_tipo(type_func)
     list_param_func = list()
+
     for var_param in func_list[name_func][0][3]:
         for var in var_list[var_param]:
-            if var[4] == name_func:
-                list_param_func.append(get_tipo(var[1]))
+            if var[6] == name_func:
+                list_param_func.append(get_tipo(var[2]))
 
     t_func = ir.FunctionType(func_return_type, list_param_func)
 
     if name_func == 'principal':
-        func = ir.Function(module, t_func, name='main')
+        func = ir.Function(module, t_func, name = 'main')
     else:
-        func = ir.Function(module, t_func, name=name_func)
+        func = ir.Function(module, t_func, name = name_func)
 
     for index in range(len(func_list[name_func][0][3])):
         func.args[index].name = func_list[name_func][0][3][index]
-        if name_func not in var_list:
-            var_list[name_func] = []
-        var_list[name_func].append({func_list[name_func][0][3][index]: func.args[index]})
+        if name_func not in var_list_gen:
+            var_list_gen[name_func] = []
+        var_list_gen[name_func].append({func_list[name_func][0][3][index]: func.args[index]})
 
     entry_block = func.append_basic_block('entry')
 
     builder = ir.IRBuilder(entry_block)
 
-    for element in var_list:
-        for var in var_list[element]:
-            if var[4] == name_func:
-                if var[0] not in func_list[var[4]][0][3]:
-                    dec_variavel_local(var, builder)
+    for i in var_list:
+        for var in var_list[i]:
+            if (len(var) > 6):
+                if var[6] == name_func:
+                    if var[1] not in func_list[var[6]][0][3]:
+                        dec_variavel_local(var, builder)
 
     arvore(node, builder, type_func, func)
 
@@ -469,10 +612,10 @@ if __name__ == '__main__':
 
     module.data_layout = target_machine.target_data
 
-    escrevaInteiro = ir.Function(module, ir.FunctionType(ir.VoidType(), [ir.IntType(32)]), name="escrevaInteiro")
-    escrevaFlutuante = ir.Function(module, ir.FunctionType(ir.VoidType(), [ir.FloatType()]), name="escrevaFlutuante")
-    leiaInteiro = ir.Function(module, ir.FunctionType(ir.IntType(32), []), name="leiaInteiro")
-    leiaFlutuante = ir.Function(module, ir.FunctionType(ir.FloatType(), []), name="leiaFlutuante")
+    escrevaInteiro = ir.Function(module, ir.FunctionType(ir.VoidType(), [ir.IntType(32)]), name = "escrevaInteiro")
+    escrevaFlutuante = ir.Function(module, ir.FunctionType(ir.VoidType(), [ir.FloatType()]), name = "escrevaFlutuante")
+    leiaInteiro = ir.Function(module, ir.FunctionType(ir.IntType(32), []), name = "leiaInteiro")
+    leiaFlutuante = ir.Function(module, ir.FunctionType(ir.FloatType(), []), name = "leiaFlutuante")
 
     geracao(root)
 
@@ -480,10 +623,10 @@ if __name__ == '__main__':
     arquivo.write(str(module))
     arquivo.close()
 
-    bashCommands = ["clang -emit-llvm -S io.c", "llc -march=x86-64 -filetype=obj io.ll -o io.o",
-                    f'llvm-link geracao-codigo-testes/{file_name}.ll io.ll -o geracao-codigo-testes/{file_name}.bc',
-                    f'clang geracao-codigo-testes/{file_name}.bc -o geracao-codigo-testes/{file_name}.o',
-                    f'rm geracao-codigo-testes/{file_name}.bc']
-    for bashCommand in bashCommands:
+    cmd = ["clang-11 -emit-llvm -S io-helper.c", "llc -march=x86-64 -filetype=obj io-helper.ll -o io-helper.o",
+                    f'llvm-link geracao-codigo-testes/{file_name}.ll io-helper.ll -o geracao-codigo-testes/{file_name}.bc',
+                    f'clang-11 geracao-codigo-testes/{file_name}.bc -o geracao-codigo-testes/{file_name}.o']
+
+    for bashCommand in cmd:
         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
         output, error = process.communicate()
