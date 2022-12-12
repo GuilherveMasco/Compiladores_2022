@@ -11,18 +11,6 @@ var_list_gen = {'global': []}
 list_func = dict()
 func_exit = False
 
-
-def get_tipo(variavel_tipo):
-    if variavel_tipo == "inteiro":
-        tipo = ir.IntType(32)
-    elif variavel_tipo == "flutuante":
-        tipo = ir.FloatType()
-    else:
-        tipo = ir.VoidType()
-
-    return tipo
-
-
 def get_variavel_lista(variavel):
     global escopo
 
@@ -52,6 +40,16 @@ def get_variavel_lista(variavel):
         return None
 
     return variavel
+
+def get_tipo(variavel_tipo):
+    if variavel_tipo == "inteiro":
+        tipo = ir.IntType(32)
+    elif variavel_tipo == "flutuante":
+        tipo = ir.FloatType()
+    else:
+        tipo = ir.VoidType()
+
+    return tipo
 
 
 def dec_variavel_global(node):
@@ -482,8 +480,6 @@ def chamada_funcao_codigo(node, builder):
 
 def arvore(node, builder, type_func, func):
     global func_exit
-
-    # print("Nó: ", node.name)
 
     if node.name == 'retorna':
         func_exit = True
