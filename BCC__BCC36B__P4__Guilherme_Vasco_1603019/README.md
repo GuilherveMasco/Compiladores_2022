@@ -76,16 +76,24 @@ Após percorrer a árvore e executar a função *geracao* por completo, é criad
 Na Figura 5 também pode ser vista a chamada ao arquivo *io-helper*, que é responsável por criar as funções de leitura e escrita no terminal, que são utilizadas no código gerado.
 
 ### 5. Execução
+A execução do código desenvolvido pode ser realizada através do comando *python tppgeracao.py <nome_do_arquivo>*. O arquivo de entrada deve ser um arquivo com extensão *.tpp*, que deve estar na mesma pasta do código desenvolvido. Uma série de códigos de exemplo são fornecidos no diretório *geracao-codigo-testes*.
+
+Após a execução do código, é gerado um arquivo com o nome *<nome_do_arquivo>.ll*, que pode ser executado por um compilador de LLVM, como o *llc*. Também é gerado o arquivo *<nome_do_arquivo>.o*, que é a versão executável do código compilado, podendo ser executada com o comando *./<nome_do_arquivo>.o*, o resultado da execução será impresso no terminal.
 
 #### 5.1 Testes
+Para testar a ferramenta desenvolvida foram utilizados os códigos de exemplo fornecidos no diretório *geracao-codigo-testes*. Os códigos puderam ser excutados com o comando citado no item 5, utilizando, por exemplo, o comando *python tppgeracao.py geracao-codigo-testes/gencode-001.tpp*.
+
+A execução dos testes, com a ferramenta no estado atual, gerou erros e não resultou o código executável esperado, como será visto no item 5.2.
 
 #### 5.2 Resultados esperados e obtidos
+Ao fim da execução, era esperado que fossem gerados os arquivos com extensão *.ll* e *.o* para serem executados, porém, com a ferramenta no estado atual, são retornados erros no desenvolvimento do código em algumas diferentes funções, o que resulta em erros antes da geração dos arquivos finais e, consequentemente, impossibilita a execução do código gerado.
+
+Ao longo do período de desenvolvimento, foi possível desenvolver algumas das funções sem que houvessem erros, mas algumas ainda não foram concluídas, por conta disso, não foi possível executar o código final adequadamente.
 
 ### 6. Conclusões
+Através do desenvolvimento do projeto, foi possível entender melhor o funcionamento de um compilador, e como cada parte do código é responsável por uma função específica. Também foi possível entender melhor a linguagem de programação Python, e como ela, em conjunto com as bibliotecas *PLY*, *AnyTree* e *LLVMLite*, pode ser utilizada para desenvolver um compilador. Embora o resultado final ainda não tenha sido um sucesso, foi possível compreender toda a teoria do processo de compilação de códigos ecomo pode ser desenvolvido um compilador para uma linguagem específica.
 
 ### Referências
-Gonçalves, R. A. (2022) “Projeto de Implementação de um Compilador para a Linguagem TPP: Análise Semântica (Trabalho – 3ª parte)”, https://moodle.utfpr.edu.br/pluginfile.php/2647538/mod_resource/content/19/trabalho-03.md.article.pdf.
-Louden, K. C. (2004) “Análise Sintática Ascendente”, Em: Compiladores: princípios e práticas., EUA.
-Beazley, D. M. (2021) “PLY (Python Lex-Yacc)”, https://www.dabeaz.com/ply/ply.html
-Johnson, S. C. (1979) Yacc: Yet Another Compiler-Compiler.
-Astanin, S. (2012) “python-tabulate”, https://pypi.org/project/tabulate/
+Gonçalves, R. A. (2022) “Projeto de Implementação de um Compilador para a Linguagem TPP: Geração de Código (Trabalho – 4ª parte)”, https://moodle.utfpr.edu.br/pluginfile.php/2647551/mod_resource/content/15/trabalho-04.md.article.pdf.
+
+LLVM. (2022) “LLVM Language Reference Manual”, https://llvm.org/docs/LangRef.html.

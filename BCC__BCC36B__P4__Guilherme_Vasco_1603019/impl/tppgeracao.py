@@ -11,6 +11,13 @@ var_list_gen = {'global': []}
 list_func = dict()
 func_exit = False
 
+def geracao(root):
+    for children in root.children:
+        if children.name == 'declaracao_variaveis':
+            dec_variavel_global(children)
+        if children.name == 'declaracao_funcao':
+            dec_funcoes(children)
+
 def get_variavel_lista(variavel):
     global escopo
 
@@ -60,10 +67,10 @@ def dec_variavel_global(node):
     list_dim = list()
 
     for var in var_list[var_name]:
-        if var[1] == var_type and var[4] == 'global':
+        if var[2] == var_type and var[6] == 'global':
             flag = True
-            var_dim = var[2]
-            list_dim = var[3]
+            var_dim = var[3]
+            list_dim = var[4]
 
     if flag:
         temp_var_type = get_tipo(var_type)
@@ -84,7 +91,7 @@ def dec_variavel_global(node):
 
         temp_var.linkage = "common"
         temp_var.align = 4
-        var_list['global'].append({var_name: temp_var})
+        var_list_gen['global'].append({var_name: temp_var})
 
     return flag
 
@@ -96,7 +103,7 @@ def dec_variavel_local(var, builder):
         for dim in var[3]:
             temp_var_type = ir.ArrayType(temp_var_type, int(dim[0]))
 
-    temp_var = builder.alloca(temp_var_type, name=var[0])
+    temp_var = builder.alloca(temp_var_type, name = var[1])
 
     if var[2] == 0:
         if var[1] == 'inteiro':
@@ -236,6 +243,7 @@ def atribuicao_codigo(node, builder):
             flag = False
 
     var1 = None
+
     if len(left) == 1:
         var1 = get_variavel_lista(left[0])
     else:
@@ -243,7 +251,7 @@ def atribuicao_codigo(node, builder):
         if len(left) == 4:
             expression = builder.load(get_variavel_lista(left[2]))
             var1 = builder.gep(array_left, [int_ty(0), expression], name=left[0]+'_'+left[2])
-        if len(left) > 4:
+        else:
             expressions = list()
             for index in [left[2], left[4]]:
                 if index.isnumeric():
@@ -475,7 +483,30 @@ def repita_codigo(node, builder, type_func, func):
 
 
 def chamada_funcao_codigo(node, builder):
-    return
+    int_ty = ir.IntType(32)
+    func_name = node.name
+
+    node_params = []
+    dad = node.parent
+    for children in dad.children:
+        if children != node:
+            node_params.append(children)
+
+    if len(node_params) == 1:
+        param = node_params[0].name
+
+        if param.isnumeric():
+            func_aux = list_func[func_name]
+            param_type = func_aux.args[0].type.intrinsic_name
+            if param_type == 'i32':
+                value = int_ty(int(param))
+            else:
+                value = ir.Constant(ir.FloatType(), float(param))
+            builder.call(func_aux, [value])
+        else:
+            pass
+    else:
+        pass
 
 
 def arvore(node, builder, type_func, func):
@@ -548,10 +579,9 @@ def dec_funcoes(node):
 
     for i in var_list:
         for var in var_list[i]:
-            if (len(var) > 6):
-                if var[6] == name_func:
-                    if var[1] not in func_list[var[6]][0][3]:
-                        dec_variavel_local(var, builder)
+            if var[6] == name_func:
+                if var[1] not in func_list[var[6]][0][3]:
+                    dec_variavel_local(var, builder)
 
     arvore(node, builder, type_func, func)
 
@@ -575,14 +605,6 @@ def dec_funcoes(node):
 
     list_func[name_func] = func
     escopo = 'global'
-
-
-def geracao(root):
-    for children in root.children:
-        if children.name == 'declaracao_variaveis':
-            dec_variavel_global(children)
-        if children.name == 'declaracao_funcao':
-            dec_funcoes(children)
 
 
 if __name__ == '__main__':
