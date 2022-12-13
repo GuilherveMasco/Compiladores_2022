@@ -495,7 +495,8 @@ def main():
                         'virgula', 'fator', 'cabecalho', 'FIM', 'lista_parametros', 'vazio',
                         '(', ')', ':', ',', 'RETORNA', 'ESCREVA', 'SE', 'ENTAO', 'SENAO', 'maior',
                         'menor', 'REPITA', 'igual', 'menos', 'menor_igual', 'maior_igual', 'operador_logico',
-                        'operador_multiplicacao', 'vezes']
+                        'operador_multiplicacao', 'vezes', 'ABRE_PARENTESE', 'FECHA_PARENTESE', 'operador_relacional',
+                        'MAIOR', 'MENOR', 'MAIS', 'MENOS', 'IGUAL', 'MENOR_IGUAL', 'MAIOR_IGUAL']
 
     nos_ajuste = [':=', '+', '*', '-', '/']
     poda(root, nos_remocao)

@@ -22,4 +22,6 @@ entry:
   store i32 %"expression.1", i32* %"b"
   br label %"exit"
 exit:
+  %".6" = load i32, i32* %"b"
+  ret i32 %".6"
 }

@@ -15,4 +15,5 @@ define i32 @"main"()
 entry:
   br label %"exit"
 exit:
+  ret i32 0
 }

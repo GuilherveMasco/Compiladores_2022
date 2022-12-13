@@ -34,6 +34,8 @@ Uma intrução é uma operação única e expressa em um código. Uma instruçã
 ### 4. Implementação
 A implementação do compilador foi realizada em Python, utilizando a biblioteca *llvmlite*, que é uma biblioteca Python para o LLVM. Também foi necessária a instalação do compilador da linguagem C, *clang* (*clang-11*), que é utilizado para compilar o código gerado pelo compilador. Para possibilitar a geração de código, foram criadas diferentes funções, que são chamadas de acordo com o tipo de nó da árvore podada. Cada função é responsável por gerar o código de acordo com o tipo de nó da árvore podada, levando em conta os possíveis, módulos, funções, blocos e instruções da linguagem TPP. A seguir, será apresentada a estrutura do código, com as funções e suas responsabilidades.
 
+O desenvolvimento dos módulos da ferramenta de geração de código foi feita com o auxílio de exemplos disponíveis no repositório do GitHub da disciplina de Compiladores, disponível em [llvm-gencode-samples](https://github.com/rogerioag/llvm-gencode-samples). Esses exemplos foram utilizados e editados de acordo com a necessidade do projeto.
+
 #### 4.1 Estrutura do código
 O código se inicia através do retorno da análise semântica, obtendo as variáveis *root* (raíz da árvore), *message_list* (mensagens geradas pela análise), *func_list* (lista de funções obtidas) e *var_list* (lista de variáveis obtidas). Essas variáveis serão percorridas através das funções de geração de código para poder gerar o arquivo bitcode. Caso hajam mensagens de erro (*ERROR*) na variável *message_list*, o código não será gerado e as mensagens serão exibidas na tela. Caso não haja mensagens de erro, o código será gerado e o arquivo bitcode será escrito no arquivo *<nome_do_arquivo>.bc*.
 
@@ -73,7 +75,7 @@ Após percorrer a árvore e executar a função *geracao* por completo, é criad
 
 **Figura 5. Comandos do terminal executados pelo código desenvolvido.**
 
-Na Figura 5 também pode ser vista a chamada ao arquivo *io-helper*, que é responsável por criar as funções de leitura e escrita no terminal, que são utilizadas no código gerado.
+Na Figura 5 também pode ser vista a chamada ao arquivo *io-helper*, que é responsável por criar as funções de leitura e escrita no terminal, que são utilizadas no código gerado. Essa função, também, foi reutilizada do repositório da disciplina.
 
 ### 5. Execução
 A execução do código desenvolvido pode ser realizada através do comando *python tppgeracao.py <nome_do_arquivo>*. O arquivo de entrada deve ser um arquivo com extensão *.tpp*, que deve estar na mesma pasta do código desenvolvido. Uma série de códigos de exemplo são fornecidos no diretório *geracao-codigo-testes*.
@@ -86,12 +88,14 @@ Para testar a ferramenta desenvolvida foram utilizados os códigos de exemplo fo
 A execução dos testes, com a ferramenta no estado atual, gerou erros e não resultou o código executável esperado, como será visto no item 5.2.
 
 #### 5.2 Resultados esperados e obtidos
-Ao fim da execução, era esperado que fossem gerados os arquivos com extensão *.ll* e *.o* para serem executados, porém, com a ferramenta no estado atual, são retornados erros no desenvolvimento do código em algumas diferentes funções, o que resulta em erros antes da geração dos arquivos finais e, consequentemente, impossibilita a execução do código gerado.
+Ao fim da execução, era esperado que fossem gerados os arquivos com extensão *.ll* e *.o* para serem executados, porém, com a ferramenta no estado atual, são retornados erros em alguns dos códigos de exemplo, como o caso do arquivo *geracao-codigo-testes/gencode-010.tpp*, que retorna o erro *TypeError: cannot store to value of type i32 ('i32 %"n"'): not a pointer*. Outros arquivos também retornam erros semelhantes, que ainda não puderam ser tratados adequadamente.
 
-Ao longo do período de desenvolvimento, foi possível desenvolver algumas das funções sem que houvessem erros, mas algumas ainda não foram concluídas, por conta disso, não foi possível executar o código final adequadamente.
+Ao longo do período de desenvolvimento, foi possível desenvolver algumas das funções sem que houvessem erros, mas algumas ainda não tiveram todas as correções concluídas. Assim, ainda é necessário mais desenvolvimento a fim de refinar a geração de códigos.
+
+A maioria dos códigos de exemplo, porém, não retornam erros, e são gerados os arquivos *.ll* e *.o* com sucesso. A execução dos códigos gerados também é realizada com sucesso, como no caso do código *geracao-codigo-testes/gencode-006.tpp*, que retorna o resultado esperado, recebendo valores digitados no terminal e retornando sua soma, realizando essa operação cinco vezes, como definido no código TPP de origem. O sucesso dos códigos gerados também pôde ser verificado como o comando *echo $?*, que retorna o valor 0, indicando que o código foi executado com sucesso (após a execução do arquivo *.o*).
 
 ### 6. Conclusões
-Através do desenvolvimento do projeto, foi possível entender melhor o funcionamento de um compilador, e como cada parte do código é responsável por uma função específica. Também foi possível entender melhor a linguagem de programação Python, e como ela, em conjunto com as bibliotecas *PLY*, *AnyTree* e *LLVMLite*, pode ser utilizada para desenvolver um compilador. Embora o resultado final ainda não tenha sido um sucesso, foi possível compreender toda a teoria do processo de compilação de códigos ecomo pode ser desenvolvido um compilador para uma linguagem específica.
+Através do desenvolvimento do projeto, foi possível entender melhor o funcionamento de um compilador, e como cada parte do código é responsável por uma função específica. Também foi possível entender melhor a linguagem de programação Python, e como ela, em conjunto com as bibliotecas *PLY*, *AnyTree* e *LLVMLite*, pode ser utilizada para desenvolver um compilador. Embora o resultado final ainda não tenha sido um sucesso completo, foi possível compreender toda a teoria do processo de compilação de códigos e como pode ser desenvolvido um compilador para uma linguagem específica, também foi criado um compilador com resultados bons, que pode ser aperfeiçoado e completamente corrigido futuramente.
 
 ### Referências
 Gonçalves, R. A. (2022) “Projeto de Implementação de um Compilador para a Linguagem TPP: Geração de Código (Trabalho – 4ª parte)”, https://moodle.utfpr.edu.br/pluginfile.php/2647551/mod_resource/content/15/trabalho-04.md.article.pdf.
