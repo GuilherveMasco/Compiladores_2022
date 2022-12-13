@@ -85,19 +85,27 @@ Após a execução do código, é gerado um arquivo com o nome *<nome_do_arquivo
 #### 5.1 Testes
 Para testar a ferramenta desenvolvida foram utilizados os códigos de exemplo fornecidos no diretório *geracao-codigo-testes*. Os códigos puderam ser excutados com o comando citado no item 5, utilizando, por exemplo, o comando *python tppgeracao.py geracao-codigo-testes/gencode-001.tpp*.
 
-A execução dos testes, com a ferramenta no estado atual, gerou erros e não resultou o código executável esperado, como será visto no item 5.2.
+Após a execução do comando, o código executou e gerou os arquivos *gencode-001.bc*, *gencode-001.ll* e *gencode-001.o*, sendo os arquivos bitcode, código de máquina e executável, respectivamente. Também foram gerados os arquivos de árvore gerados pelas etapas anteriores. O código gerado foi executado com o comando *./gencode-001.o*, esse código não gera resultados no terminal, mas é possível verificar que o código foi executado com sucesso, pois não é retornado nenhum erro e ao executar o comando *echo $?* é retornado o valor 0, indicando execução sem erros.
+
+Também é possível verificar o arquivo *geracao-codigo-testes/gencode-006.tpp*, que possui interação com o usuário via terminal. Executando o gerador de código com o comando *python tppgeracao.py geracao-codigo-testes/gencode-006.tpp*, é gerado o arquivo *gencode-006.o*, que pode ser executado com o comando *./gencode-006.o*. Ao executar o código, é possível interagir com o usuário, recebendo valores no terminal e imprimindo a soma deles, também no terminal, como pode ser visto na Figura 6.
+
+![](https://raw.githubusercontent.com/GuilherveMasco/Compiladores_2022/main/BCC__BCC36B__P4__Guilherme_Vasco_1603019/relatorio/img/terminal.png)
+
+**Figura 6. Interação por terminal como usuário na execução do código *gencode-006.tpp*.**
 
 #### 5.2 Resultados esperados e obtidos
 Ao fim da execução, era esperado que fossem gerados os arquivos com extensão *.ll* e *.o* para serem executados, porém, com a ferramenta no estado atual, são retornados erros em alguns dos códigos de exemplo, como o caso do arquivo *geracao-codigo-testes/gencode-010.tpp*, que retorna o erro *TypeError: cannot store to value of type i32 ('i32 %"n"'): not a pointer*. Outros arquivos também retornam erros semelhantes, que ainda não puderam ser tratados adequadamente.
 
 Ao longo do período de desenvolvimento, foi possível desenvolver algumas das funções sem que houvessem erros, mas algumas ainda não tiveram todas as correções concluídas. Assim, ainda é necessário mais desenvolvimento a fim de refinar a geração de códigos.
 
-A maioria dos códigos de exemplo, porém, não retornam erros, e são gerados os arquivos *.ll* e *.o* com sucesso. A execução dos códigos gerados também é realizada com sucesso, como no caso do código *geracao-codigo-testes/gencode-006.tpp*, que retorna o resultado esperado, recebendo valores digitados no terminal e retornando sua soma, realizando essa operação cinco vezes, como definido no código TPP de origem. O sucesso dos códigos gerados também pôde ser verificado como o comando *echo $?*, que retorna o valor 0, indicando que o código foi executado com sucesso (após a execução do arquivo *.o*).
+A maioria dos códigos de exemplo, porém, não retornam erros, e são gerados os arquivos *.ll* e *.o* com sucesso. A execução dos códigos gerados também é realizada com sucesso, como no caso do código *geracao-codigo-testes/gencode-006.tpp*, citado anteriormente, que retorna o resultado esperado, recebendo valores digitados no terminal e retornando sua soma, realizando essa operação cinco vezes, como definido no código TPP de origem. O sucesso dos códigos gerados também pôde ser verificado como o comando *echo $?*, que retorna o valor 0, indicando que o código foi executado com sucesso (após a execução do arquivo *.o*).
 
 ### 6. Conclusões
 Através do desenvolvimento do projeto, foi possível entender melhor o funcionamento de um compilador, e como cada parte do código é responsável por uma função específica. Também foi possível entender melhor a linguagem de programação Python, e como ela, em conjunto com as bibliotecas *PLY*, *AnyTree* e *LLVMLite*, pode ser utilizada para desenvolver um compilador. Embora o resultado final ainda não tenha sido um sucesso completo, foi possível compreender toda a teoria do processo de compilação de códigos e como pode ser desenvolvido um compilador para uma linguagem específica, também foi criado um compilador com resultados bons, que pode ser aperfeiçoado e completamente corrigido futuramente.
 
 ### Referências
 Gonçalves, R. A. (2022) “Projeto de Implementação de um Compilador para a Linguagem TPP: Geração de Código (Trabalho – 4ª parte)”, https://moodle.utfpr.edu.br/pluginfile.php/2647551/mod_resource/content/15/trabalho-04.md.article.pdf.
+
+Gonçalves, R. A. (2022) "Exemplos de Geração de Código LLVM [llvm-gencode-samples]", https://github.com/rogerioag/llvm-gencode-samples.
 
 LLVM. (2022) “LLVM Language Reference Manual”, https://llvm.org/docs/LangRef.html.
