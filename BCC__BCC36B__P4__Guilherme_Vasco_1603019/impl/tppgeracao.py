@@ -164,6 +164,7 @@ def atribuicao_codigo(node, builder):
         type_var = var1.type.intrinsic_name
 
     next_operation = 'add'
+
     if type_var == 'i32':
         expression = ir.Constant(ir.IntType(32), 0)
     else:
@@ -182,6 +183,7 @@ def atribuicao_codigo(node, builder):
                 if right[index] not in list_func and get_variavel_lista(right[index]) is None:
                     value = float(right[index])
                     temp = ir.Constant(ir.FloatType(), value)
+
             if right[index].isnumeric():
                 value = int(right[index])
                 temp = ir.Constant(ir.IntType(32), value)
@@ -223,7 +225,7 @@ def atribuicao_codigo(node, builder):
 
                         array_var = get_variavel_lista(array_var)
                         index_var_load = builder.load(get_variavel_lista(index_var))
-                        array_var_pos = builder.gep(array_var, [int_ty(0), index_var_load], name=f'{right[index]}[{right[index + 2]}]')
+                        array_var_pos = builder.gep(array_var, [int_ty(0), index_var_load], name = f'{right[index]}[{right[index + 2]}]')
                         temp = builder.load(array_var_pos, align=4)
 
                         index += 3
@@ -303,9 +305,9 @@ def retorno_codigo(node, builder, type_func, func):
 
 def leia_codigo(node, builder):
     variavel = node.children[0].name
-
     variavel = get_variavel_lista(variavel)
     var_type = variavel.type.pointee.intrinsic_name
+
     if var_type == 'i32':
         result_read = builder.call(leiaInteiro, args=[])
     else:
@@ -317,8 +319,8 @@ def leia_codigo(node, builder):
 def escreva_codigo(node, builder):
     if len(node.children) == 1:
         variavel = node.children[0].name
-
         variavel = get_variavel_lista(variavel)
+
         try:
             var_type = variavel.type.pointee.intrinsic_name
         except:
@@ -334,6 +336,7 @@ def escreva_codigo(node, builder):
                 builder.call(escrevaFlutuante, args=[variavel])
             except:
                 builder.call(escrevaFlutuante, args=[builder.load(variavel)])
+
     elif len(node.children) == 2:
         name_func = node.children[0].name
         type_func = list_func[name_func].type.pointee.return_type.intrinsic_name
@@ -359,6 +362,7 @@ def escreva_codigo(node, builder):
         temp = builder.load(array_var_pos, align=4)
 
         type_array = array_var.type.pointee.element.intrinsic_name
+
         if type_array == 'i32':
             builder.call(escrevaInteiro, args=[temp])
         else:
@@ -404,24 +408,25 @@ def repita_codigo(node, builder, type_func, func):
     if any_value:
         if comparation_list[0].type.is_pointer and not comparation_list[1].type.is_pointer:
             expression = builder.icmp_signed(type_comparation, builder.load(comparation_list[0]),
-                                             comparation_list[1], name='expression')
+                                             comparation_list[1], name = 'expression')
         elif comparation_list[0].type.is_pointer and comparation_list[1].type.is_pointer:
             expression = builder.icmp_signed(type_comparation, builder.load(comparation_list[0]),
-                                             builder.load(comparation_list[1]), name='expression')
+                                             builder.load(comparation_list[1]), name = 'expression')
         else:
-            expression = builder.icmp_signed(type_comparation, comparation_list[0], comparation_list[1], name='expression')
+            expression = builder.icmp_signed(type_comparation, comparation_list[0], comparation_list[1], name = 'expression')
     else:
         if comparation_list[0].type.is_pointer and var_comper.type.is_pointer:
             expression = builder.icmp_signed(type_comparation, builder.load(comparation_list[0]),
-                                             builder.load(var_comper), name='expression')
+                                             builder.load(var_comper), name = 'expression')
         elif not comparation_list[0].type.is_pointer and var_comper.type.is_pointer:
             expression = builder.icmp_signed(type_comparation, comparation_list[0],
-                                             builder.load(var_comper), name='expression')
+                                             builder.load(var_comper), name = 'expression')
 
     if type_comparation == '==':
         builder.cbranch(expression, loop_end, loop)
     else:
         builder.cbranch(expression, loop, loop_end)
+
     builder.position_at_end(loop_end)
 
 def se_codigo(node, builder, type_func, func):
@@ -440,8 +445,8 @@ def se_codigo(node, builder, type_func, func):
     comparation_list.append(node.children[4].name)
 
     int_ty = ir.IntType(32)
-    var_comper_right = builder.alloca(ir.IntType(32), name='var_comper_right')
-    var_comper_left = builder.alloca(ir.IntType(32), name='var_comper_left')
+    var_comper_right = builder.alloca(ir.IntType(32), name = 'var_comper_right')
+    var_comper_left = builder.alloca(ir.IntType(32), name = 'var_comper_left')
 
     for index in range(len(comparation_list)):
         if comparation_list[index] in list_func:
@@ -457,7 +462,7 @@ def se_codigo(node, builder, type_func, func):
             else:
                 builder.store(comparation_list[index], var_comper_left)
 
-    if_state = builder.icmp_signed(type_comparation, var_comper_left, var_comper_right, name='if_test')
+    if_state = builder.icmp_signed(type_comparation, var_comper_left, var_comper_right, name = 'if_test')
     builder.cbranch(if_state, iftrue, iffalse)
 
     builder.position_at_end(iftrue)
@@ -485,6 +490,7 @@ def chamada_funcao_codigo(node, builder):
 
     node_params = []
     dad = node.parent
+
     for children in dad.children:
         if children != node:
             node_params.append(children)
@@ -513,21 +519,27 @@ def arvore(node, builder, type_func, func):
         flag_saida = True
         retorno_codigo(node, builder, type_func, func)
         return
+
     if node.name == 'leia':
         leia_codigo(node, builder)
         return
+
     if node.name == 'escreva':
         escreva_codigo(node, builder)
         return
+
     if node.name == ':=':
         atribuicao_codigo(node, builder)
         return
+
     if node.name == 'se':
         se_codigo(node, builder, type_func, func)
         return
+
     if node.name == 'repita':
         repita_codigo(node, builder, type_func, func)
         return
+
     if node.name in list_func:
         chamada_funcao_codigo(node, builder)
         return
